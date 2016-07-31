@@ -11,9 +11,10 @@ import java.util.function.Predicate;
 /**
  * Created by mikedev on 13/07/16.
  */
-interface ListOperation<T> {
+interface ListOperation<T>
+{
     Collection<T> getCollection();
-    Collection<T> makeCollection();
+    <S> ArrayList<S> makeCollection();
 
     default void forEach(Modifier<T> alterator)
     {
@@ -22,7 +23,7 @@ interface ListOperation<T> {
 
     default <R> Collection<R> map(Function<T, R> mapper)
     {
-        ArrayList<R> newCollection = new ArrayList<R>();
+        ArrayList<R> newCollection = makeCollection();
         for(T e : getCollection())
         {
             newCollection.add(mapper.apply(e));
@@ -32,7 +33,7 @@ interface ListOperation<T> {
 
     default Collection<T> filter(Predicate<T> predicate)
     {
-        ArrayList<T> newCollection = new ArrayList<T>();
+        ArrayList<T> newCollection = makeCollection();
         for(T e: getCollection())
         {
             if(predicate.test(e))
@@ -91,10 +92,10 @@ interface ListOperation<T> {
         return min;
     }
 
-    default <E> Map<E, T> groupBy(Predicate<E> grouper)
+    /*default <E> Map<E, T> groupBy(Predicate<E> grouper)
     {
 
-    }
+    }*/
 
     default int count(Predicate<T> fCounter)
     {
@@ -106,9 +107,9 @@ interface ListOperation<T> {
         return c;
     }
 
-    default Collection<T> orderBy(Comparator<T> comparator)
+    /*default Collection<T> orderBy(Comparator<T> comparator)
     {
         ArrayList<T> orderedList = 
-    }
+    }*/
 
 }
