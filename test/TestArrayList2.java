@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 import test_classes.Point;
@@ -80,6 +81,12 @@ public class TestArrayList2 {
     }
 
     @Test
+    public void testMapIndexed1()
+    {
+        assertEquals(l1.mapIndexed((i,x) -> i+x).last().intValue(), 44);
+    }
+
+    @Test
     public void testMaxBy1()
     {
         assertEquals(l1.maxBy(Integer::compare).intValue(), 43);
@@ -119,5 +126,38 @@ public class TestArrayList2 {
         assertEquals(l2.orderDecrescentBy(Integer::compare).get(0).intValue(), 90);
     }
 
+    @Test
+    public void testGroupBy1()
+    {
+        Map<Integer, ArrayList2<Integer>> map = l1.groupBy(x -> x % 5);
+        assertEquals(map.get(1).size(), 2);
+        assertTrue(map.get(1).contains(41));
+    }
 
+    @Test
+    public void testGroupBy2()
+    {
+        Map<Point, ArrayList2<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
+        assertEquals(map.get(new Point(0,0)).size(), 2);
+        assertTrue(map.get(new Point(0,0)).contains(3) && map.get(new Point(0,0)).contains(39));
+    }
+
+    @Test
+    public void testCount1()
+    {
+        assertEquals(l1.count(x -> x%2 == 1), 5);
+    }
+
+
+    @Test
+    public void testCount2()
+    {
+        assertEquals(l1.count(x -> x%2 == 0), 1);
+    }
+
+    @Test
+    public void testCount3()
+    {
+        assertEquals(l2.count(x -> x%5 == 0),2);
+    }
 }

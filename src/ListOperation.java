@@ -60,7 +60,7 @@ interface ListOperation<T>
     default void forEachReverse(Modifier<T> mod)
     {
         //TODO Vedere IterTools per invertire iteratore;
-        Iterator<T> it = getCollection().iterator();
+        Iterator<T> it;
         for(int i = getCollection().size() - 1; i>= 0; i++)
         {
 
@@ -187,10 +187,18 @@ interface ListOperation<T>
         return min[0];
     }
 
-    /*default <E> Map<E, T> groupBy(Predicate<E> grouper)
+    default <E> Map<E, ArrayList2<T>> groupBy(Function<T, E> thisFuct)
     {
+        Map<E,ArrayList2<T>> hashMap = new HashMap<E, ArrayList2<T>>();
+        for(T e: getCollection())
+        {
+            E key = thisFuct.apply(e);
+            hashMap.putIfAbsent(key, new ArrayList2<T>());
+            hashMap.get(key).add(e);
+        }
+        return hashMap;
 
-    }*/
+    }
 
     default int count(Predicate<T> fCounter)
     {
@@ -204,18 +212,17 @@ interface ListOperation<T>
 
     default Collection<T> orderBy(Comparator<T> comparator)
     {
-        List<T> orderedList;
+        List<T> orderedList = makeCollection();
         // Esegue un mergeSort da java
         if(getCollection() instanceof List)
         {
-            orderedList = makeCollection();
             orderedList.addAll(getCollection());
             orderedList.sort(comparator);
         }
         //bubble sort
         else
         {
-            orderedList = Sorting.bubbleSort(getCollection(), comparator);
+            Sorting.bubbleSort(getCollection(), orderedList, comparator);
         }
         return orderedList;
     }
