@@ -1,12 +1,11 @@
 /**
  * Created by mikedev on 01/08/16.
  */
-import Structures.ArrayList2;
-import Structures.Collection2;
+import Structures.ArrayList;
+import Structures.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
@@ -17,15 +16,15 @@ import static org.junit.Assert.*;
 
 
 
-public class TestArrayList2 {
+public class TestArrayList {
 
-    private ArrayList2<Integer> l1;
-    private ArrayList2<Integer> l2;
+    private ArrayList<Integer> l1;
+    private ArrayList<Integer> l2;
 
     @Before
     public void inizialize()
     {
-        l1 = new ArrayList2<>();
+        l1 = new ArrayList<>();
         l1.add(3);
         l1.add(4);
         l1.add(1);
@@ -33,7 +32,7 @@ public class TestArrayList2 {
         l1.add(41);
         l1.add(39);
 
-        l2 = new ArrayList2<>();
+        l2 = new ArrayList<>();
         Collections.addAll(l2,54,11,3,4,5,14,31,53,43,90,67);
     }
 
@@ -103,7 +102,7 @@ public class TestArrayList2 {
     @Test
     public void testBubbleSort1()
     {
-        ArrayList2<Integer> ordList = Sorting.bubbleSort(l1, Integer::compare);
+        ArrayList<Integer> ordList = Sorting.bubbleSort(l1, Integer::compare);
         assertEquals(ordList.lastOrNull().intValue(), 43);
         assertEquals(ordList.get(0).intValue(), 1);
         assertEquals(ordList.get(1).intValue(), 3);
@@ -136,7 +135,7 @@ public class TestArrayList2 {
     @Test
     public void testGroupBy1()
     {
-        Map<Integer, Collection2<Integer>> map = l1.groupBy(x -> x % 5);
+        Map<Integer, Collection<Integer>> map = l1.groupBy(x -> x % 5);
         assertEquals(map.get(1).size(), 2);
         assertTrue(map.get(1).contains(41));
     }
@@ -144,7 +143,7 @@ public class TestArrayList2 {
     @Test
     public void testGroupBy2()
     {
-        Map<Point, Collection2<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
+        Map<Point, Collection<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
         assertEquals(map.get(new Point(0,0)).size(), 2);
         assertTrue(map.get(new Point(0,0)).contains(3) && map.get(new Point(0,0)).contains(39));
     }
@@ -173,7 +172,7 @@ public class TestArrayList2 {
     {
         Point p1 = new Point(1,1);
         Point p2 = new Point(3,3);
-        ArrayList2<Point> a = new ArrayList2<>();
+        ArrayList<Point> a = new ArrayList<>();
         Collections.addAll(a, p1,p1,p2,p1,p2, new Point(1,1), p2, p1, new Point(3,3));
         assertEquals(a.distinct().size(), 2);
     }

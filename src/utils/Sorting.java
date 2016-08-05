@@ -1,22 +1,21 @@
 package utils;
 
-import Structures.ArrayList2;
+import Structures.ArrayList;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 /**
  * Created by mikedev on 01/08/16.
  */
 public class Sorting {
 
-    private static <T> ArrayList2<T> bubbleSort(Collection<T> collection, Comparator<T> comparator, int order)
+    private static <T> ArrayList<T> bubbleSort(Collection<T> collection, Comparator<T> comparator, int order)
     {
         if(!(order == -1 || order == 0 || order == 1)){
             throw new IllegalArgumentException("Order value can be only -1,0,1");
         }
-        ArrayList2<T> orderedList = new ArrayList2<T>();
+        ArrayList<T> orderedList = new ArrayList<T>();
         T[] unorderedArray = (T[]) new Object[collection.size()];
         collection.toArray(unorderedArray);
         boolean flagStop = true;
@@ -48,12 +47,12 @@ public class Sorting {
         return orderedList;
     }
 
-    public static <T> ArrayList2<T> bubbleSortDecrescent(Collection<T> collection, Comparator<T> comparator)
+    public static <T> ArrayList<T> bubbleSortDecrescent(Collection<T> collection, Comparator<T> comparator)
     {
        return bubbleSort(collection, comparator, -1);
     }
 
-    public static <T> ArrayList2<T> bubbleSort(Collection<T> collection, Comparator<T> comparator)
+    public static <T> ArrayList<T> bubbleSort(Collection<T> collection, Comparator<T> comparator)
     {
         return bubbleSort(collection, comparator, 1);
     }
@@ -63,7 +62,7 @@ public class Sorting {
         if(!(order == -1 || order == 0 || order == 1)){
             throw new IllegalArgumentException("Order value can be only -1,0,1");
         }
-        ArrayList2<T> orderedList = new ArrayList2<T>();
+        ArrayList<T> orderedList = new ArrayList<T>();
         T[] unorderedArray = (T[]) new Object[collection.size()];
         collection.toArray(unorderedArray);
         boolean flagStop = true;

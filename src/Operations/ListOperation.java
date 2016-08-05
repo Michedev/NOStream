@@ -2,9 +2,8 @@ package Operations;
 
 import Functions.Modifier;
 import Functions.ModifierIndexed;
-import Operations.Operation;
-import Structures.ArrayList2;
-import Structures.Collection2;
+import Structures.ArrayList;
+import Structures.Collection;
 import utils.Pair;
 import utils.Sorting;
 
@@ -18,7 +17,7 @@ import java.util.function.BinaryOperator;
  * Created by mikedev on 13/07/16.
  */
 public interface ListOperation<T> extends Operation<T> {
-    Collection<T> getCollection();
+    java.util.Collection getCollection();
     Iterator<T> iterator();
     <S> List<S> makeCollection();
     boolean isParallel();
@@ -103,7 +102,7 @@ public interface ListOperation<T> extends Operation<T> {
 
 
     @Override
-    default <R> Collection<R> map(Function<T, R> mapper)
+    default <R> java.util.Collection map(Function<T, R> mapper)
     {
         List<R> newCollection = makeCollection();
         forEach(e ->
@@ -114,7 +113,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default <R> Collection<R> mapIndexed(BiFunction<Integer, T, R> mapper)
+    default <R> java.util.Collection mapIndexed(BiFunction<Integer, T, R> mapper)
     {
         List<R> newCollection = makeCollection();
         forEachIndexed((i, e) ->
@@ -125,7 +124,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> filter(Predicate<T> predicate)
+    default java.util.Collection filter(Predicate<T> predicate)
     {
         List<T> newCollection = makeCollection();
         forEach(e ->
@@ -139,7 +138,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> filterIndexed(BiPredicate<Integer, T> predicate)
+    default java.util.Collection filterIndexed(BiPredicate<Integer, T> predicate)
     {
         List<T> newCollection = makeCollection();
         forEachIndexed((i, e) ->
@@ -229,13 +228,13 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default <E> Map<E, Collection2<T>> groupBy(Function<T, E> thisFuct)
+    default <E> Map<E, Collection<T>> groupBy(Function<T, E> thisFuct)
     {
-        Map<E, Collection2<T>> hashMap = new HashMap<E, Collection2<T>>();
+        Map<E, Collection<T>> hashMap = new HashMap<E, Collection<T>>();
         for(T e: getCollection())
         {
             E key = thisFuct.apply(e);
-            hashMap.putIfAbsent(key, new ArrayList2<T>());
+            hashMap.putIfAbsent(key, new ArrayList<T>());
             hashMap.get(key).add(e);
         }
         return hashMap;
@@ -254,7 +253,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> orderBy(Comparator<T> comparator)
+    default java.util.Collection orderBy(Comparator<T> comparator)
     {
         List<T> orderedList = makeCollection();
         // Esegue un mergeSort da java
@@ -272,7 +271,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> orderDecrescentBy(Comparator<T> comparator)
+    default java.util.Collection orderDecrescentBy(Comparator<T> comparator)
     {
         List<T> crescentList = (List<T>) (orderBy(comparator));
         int n = crescentList.size();
@@ -388,7 +387,7 @@ public interface ListOperation<T> extends Operation<T> {
      * @return A collection containing all two the elements
      */
     @Override
-    default <X> Collection<Pair<T,X>> zipWith(Collection<X> other)
+    default <X> java.util.Collection zipWith(java.util.Collection other)
     {
         if(other.size() > getCollection().size()) {
             throw new InputMismatchException("Size of input collection must be less or equal " +
@@ -401,7 +400,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> distinct()
+    default java.util.Collection distinct()
     {
         List<T> distinctList = makeCollection();
         distinctList.addAll(getCollection());
@@ -420,7 +419,7 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> take(int n) {
+    default java.util.Collection take(int n) {
         Iterator<T> it = iterator();
         List<T> result = makeCollection();
         int i = 0;
@@ -431,12 +430,12 @@ public interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default Collection<T> takeLast(int n) {
-        return ((Collection2<T>) reverse()).take(n);
+    default java.util.Collection takeLast(int n) {
+        return ((Collection<T>) reverse()).take(n);
     }
 
     @Override
-    default Collection<T> reverse() {
+    default java.util.Collection reverse() {
         int n = getCollection().size();
         List<T> reverseList = makeCollection();
         for(int i = 0, reverse = n-i-1; i < n/2; i++)

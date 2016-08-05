@@ -2,10 +2,8 @@ package Operations;
 
 import Functions.Modifier;
 import Functions.ModifierIndexed;
-import Structures.Collection2;
-import utils.Pair;
+import Structures.Collection;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.*;
@@ -21,13 +19,13 @@ public interface Operation<T> {
 
     int count(Predicate<T> fCounter);
 
-    Collection<T> distinct();
+    java.util.Collection distinct();
 
-    Collection<T> filter(Predicate<T> predicate);
+    java.util.Collection filter(Predicate<T> predicate);
 
-    Collection<T> filterIndexed(BiPredicate<Integer, T> predicate);
+    java.util.Collection filterIndexed(BiPredicate<Integer, T> predicate);
 
-    default Collection<T> filterNotNull(){
+    default java.util.Collection filterNotNull(){
         return filter(x -> x!= null);
     }
 
@@ -47,7 +45,7 @@ public interface Operation<T> {
 
     void forEachReverse(Modifier<T> mod);
 
-    <E> Map<E, Collection2<T>> groupBy(Function<T, E> thisFuct);
+    <E> Map<E, Collection<T>> groupBy(Function<T, E> thisFuct);
 
     T lastOrNull();
 
@@ -59,28 +57,28 @@ public interface Operation<T> {
 
     T last(Predicate<T> predicate, T defaultValue);
 
-    <R> Collection<R> map(Function<T, R> mapper);
+    <R> java.util.Collection map(Function<T, R> mapper);
 
-    <R> Collection<R> mapIndexed(BiFunction<Integer, T, R> mapper);
+    <R> java.util.Collection mapIndexed(BiFunction<Integer, T, R> mapper);
 
     T maxBy(Comparator<T> comparator);
 
     T minBy(Comparator<T> comparator);
 
-    Collection<T> orderBy(Comparator<T> comparator);
+    java.util.Collection orderBy(Comparator<T> comparator);
 
-    Collection<T> orderDecrescentBy(Comparator<T> comparator);
+    java.util.Collection orderDecrescentBy(Comparator<T> comparator);
 
     T reduce(BinaryOperator<T> accumulator);
 
     T reduceReverse(BinaryOperator<T> accumulator);
 
-    Collection<T> take(int n);
+    java.util.Collection take(int n);
 
-    Collection<T> takeLast(int n);
+    java.util.Collection takeLast(int n);
 
-    <X> Collection<Pair<T,X>> zipWith(Collection<X> other);
+    <X> java.util.Collection zipWith(java.util.Collection other);
 
-    Collection<T> reverse();
+    java.util.Collection reverse();
 
 }
