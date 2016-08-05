@@ -1,5 +1,6 @@
+package Structures;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.*;
@@ -17,7 +18,7 @@ public class ArrayList2<T> extends ArrayList<T> implements  List2<T>
     @Override
     public Iterator<T> iterator()
     {
-        return iterator();
+        return super.iterator();
     }
     @Override
     public <S> ArrayList2<S> makeCollection() {

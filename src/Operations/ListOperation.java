@@ -1,6 +1,12 @@
+package Operations;
 
 import Functions.Modifier;
 import Functions.ModifierIndexed;
+import Operations.Operation;
+import Structures.ArrayList2;
+import Structures.Collection2;
+import utils.Pair;
+import utils.Sorting;
 
 import java.util.*;
 import java.util.function.Function;
@@ -11,7 +17,7 @@ import java.util.function.BinaryOperator;
 /**
  * Created by mikedev on 13/07/16.
  */
-interface ListOperation<T> extends Operation<T> {
+public interface ListOperation<T> extends Operation<T> {
     Collection<T> getCollection();
     Iterator<T> iterator();
     <S> List<S> makeCollection();
@@ -74,7 +80,7 @@ interface ListOperation<T> extends Operation<T> {
         while (i < n)
         {
             if(!curr.hasNext() && i < n-1){
-                throw new IndexOutOfBoundsException("iterator not has next and index is less than last element");
+                throw new IndexOutOfBoundsException("iterator not has next and index is less than lastOrNull element");
             }
             mI.alter(i, curr.next());
             i++;
@@ -223,9 +229,9 @@ interface ListOperation<T> extends Operation<T> {
     }
 
     @Override
-    default <E> Map<E, ArrayList2<T>> groupBy(Function<T, E> thisFuct)
+    default <E> Map<E, Collection2<T>> groupBy(Function<T, E> thisFuct)
     {
-        Map<E,ArrayList2<T>> hashMap = new HashMap<E, ArrayList2<T>>();
+        Map<E, Collection2<T>> hashMap = new HashMap<E, Collection2<T>>();
         for(T e: getCollection())
         {
             E key = thisFuct.apply(e);
@@ -279,10 +285,51 @@ interface ListOperation<T> extends Operation<T> {
         return crescentList;
     }
 
+
+
     @Override
-    default T last()
+    default T firstOrNull() {
+        return getCollection().size() > 0 ? iterator().next() : null;
+    }
+
+    @Override
+    default T firstOrNull(Predicate<T> predicate) {
+        Iterator<T> it = iterator();
+        while(it.hasNext())
+        {
+            T el = it.next();
+            if(predicate.test(el))
+            {
+                return el;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    default T first(){
+        return iterator().next();
+    }
+
+    @Override
+    default T first(T defaultValue) {
+        T result = firstOrNull();
+        return result != null ? result : defaultValue;
+    }
+
+    @Override
+    default T first(Predicate<T> predicate, T defaultValue) {
+        T result = firstOrNull(predicate);
+        return result != null ? result : defaultValue;
+    }
+
+    @Override
+    default T lastOrNull()
     {
         int lastIndex = getCollection().size() - 1;
+        if(lastIndex == -1){
+            throw new IndexOutOfBoundsException("Empty collection");
+        }
         if(getCollection() instanceof List)
         {
             return ((List<T>) getCollection()).get(lastIndex);
@@ -296,6 +343,40 @@ interface ListOperation<T> extends Operation<T> {
             }
             return last;
         }
+    }
+
+    @Override
+    default T lastOrNull(Predicate<T> predicate) {
+        Iterator<T> it = iterator();
+        T last = null;
+        while(it.hasNext())
+        {
+            T el = it.next();
+            if(predicate.test(el))
+            {
+                last = el;
+            }
+        }
+        return last;
+    }
+
+    @Override
+    default T last(T defaultValue) {
+        T lastEl = lastOrNull();
+        return lastEl != null ? lastEl : defaultValue;
+    }
+
+    @Override
+    default T last() {
+        T lastEl = lastOrNull();
+        Objects.requireNonNull(lastEl, "Empty list or last element null");
+        return lastEl;
+    }
+
+    @Override
+    default T last(Predicate<T> predicate, T defaultValue) {
+        T lastEl = lastOrNull(predicate);
+        return lastEl != null? lastEl : defaultValue;
     }
 
     /**
@@ -338,4 +419,32 @@ interface ListOperation<T> extends Operation<T> {
         return distinctList;
     }
 
+    @Override
+    default Collection<T> take(int n) {
+        Iterator<T> it = iterator();
+        List<T> result = makeCollection();
+        int i = 0;
+        while(it.hasNext() && i < n){
+            result.add(it.next());
+        }
+        return result;
+    }
+
+    @Override
+    default Collection<T> takeLast(int n) {
+        return ((Collection2<T>) reverse()).take(n);
+    }
+
+    @Override
+    default Collection<T> reverse() {
+        int n = getCollection().size();
+        List<T> reverseList = makeCollection();
+        for(int i = 0, reverse = n-i-1; i < n/2; i++)
+        {
+            T tmp = reverseList.get(i);
+            reverseList.set(i, reverseList.get(reverse));
+            reverseList.set(reverse, tmp);
+        }
+        return reverseList;
+    }
 }

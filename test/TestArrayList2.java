@@ -1,15 +1,17 @@
 /**
  * Created by mikedev on 01/08/16.
  */
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import Structures.ArrayList2;
+import Structures.Collection2;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.Executors;
 
 import test_classes.Point;
+import utils.Sorting;
 
 import static org.junit.Assert.*;
 
@@ -83,7 +85,7 @@ public class TestArrayList2 {
     @Test
     public void testMapIndexed1()
     {
-        assertEquals(l1.mapIndexed((i,x) -> i+x).last().intValue(), 44);
+        assertEquals(l1.mapIndexed((i,x) -> i+x).lastOrNull().intValue(), 44);
     }
 
     @Test
@@ -102,7 +104,7 @@ public class TestArrayList2 {
     public void testBubbleSort1()
     {
         ArrayList2<Integer> ordList = Sorting.bubbleSort(l1, Integer::compare);
-        assertEquals(ordList.last().intValue(), 43);
+        assertEquals(ordList.lastOrNull().intValue(), 43);
         assertEquals(ordList.get(0).intValue(), 1);
         assertEquals(ordList.get(1).intValue(), 3);
         assertEquals(ordList.get(2).intValue(), 4);
@@ -134,7 +136,7 @@ public class TestArrayList2 {
     @Test
     public void testGroupBy1()
     {
-        Map<Integer, ArrayList2<Integer>> map = l1.groupBy(x -> x % 5);
+        Map<Integer, Collection2<Integer>> map = l1.groupBy(x -> x % 5);
         assertEquals(map.get(1).size(), 2);
         assertTrue(map.get(1).contains(41));
     }
@@ -142,7 +144,7 @@ public class TestArrayList2 {
     @Test
     public void testGroupBy2()
     {
-        Map<Point, ArrayList2<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
+        Map<Point, Collection2<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
         assertEquals(map.get(new Point(0,0)).size(), 2);
         assertTrue(map.get(new Point(0,0)).contains(3) && map.get(new Point(0,0)).contains(39));
     }
@@ -174,5 +176,29 @@ public class TestArrayList2 {
         ArrayList2<Point> a = new ArrayList2<>();
         Collections.addAll(a, p1,p1,p2,p1,p2, new Point(1,1), p2, p1, new Point(3,3));
         assertEquals(a.distinct().size(), 2);
+    }
+
+    @Test
+    public void testAll1()
+    {
+        assertTrue(l1.all(x -> x>0));
+    }
+
+    @Test
+    public void testAll2()
+    {
+        assertFalse(l1.all(x -> x>15));
+    }
+
+    @Test
+    public void testAny1()
+    {
+        assertTrue(l1.any(x -> x>15));
+    }
+
+    @Test
+    public void testAny2()
+    {
+        assertFalse(l1.any(x -> x>165));
     }
 }

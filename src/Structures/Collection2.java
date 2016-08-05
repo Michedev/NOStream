@@ -1,3 +1,7 @@
+package Structures;
+
+import Operations.ListOperation;
+
 import java.util.Collection;
 
 /**

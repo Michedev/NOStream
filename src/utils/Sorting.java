@@ -1,8 +1,11 @@
+package utils;
+
+import Structures.ArrayList2;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-
 /**
  * Created by mikedev on 01/08/16.
  */
