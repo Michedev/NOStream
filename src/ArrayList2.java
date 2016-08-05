@@ -15,7 +15,7 @@ public class ArrayList2<T> extends ArrayList<T> implements  List2<T>
     }
 
     @Override
-    public Iterator<T> getIterator()
+    public Iterator<T> iterator()
     {
         return iterator();
     }
@@ -34,7 +34,7 @@ public class ArrayList2<T> extends ArrayList<T> implements  List2<T>
     public ArrayList2<T> filterIndexed(BiPredicate<Integer, T> predicate) {
         return ((ArrayList2<T>) List2.super.filterIndexed(predicate));
     }
-    
+
 
     @Override
     public ArrayList2<T> orderBy(Comparator<T> comparator) {

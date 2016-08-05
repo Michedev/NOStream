@@ -127,6 +127,11 @@ public class TestArrayList2 {
     }
 
     @Test
+    public void testOrderDecrescentBy2()
+    {
+        assertEquals(l1.orderDecrescentBy(Integer::compare).get(0).intValue(), 43);
+    }
+    @Test
     public void testGroupBy1()
     {
         Map<Integer, ArrayList2<Integer>> map = l1.groupBy(x -> x % 5);
@@ -159,5 +164,15 @@ public class TestArrayList2 {
     public void testCount3()
     {
         assertEquals(l2.count(x -> x%5 == 0),2);
+    }
+
+    @Test
+    public void testDistinct1()
+    {
+        Point p1 = new Point(1,1);
+        Point p2 = new Point(3,3);
+        ArrayList2<Point> a = new ArrayList2<>();
+        Collections.addAll(a, p1,p1,p2,p1,p2, new Point(1,1), p2, p1, new Point(3,3));
+        assertEquals(a.distinct().size(), 2);
     }
 }

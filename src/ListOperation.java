@@ -2,8 +2,6 @@
 import Functions.Modifier;
 import Functions.ModifierIndexed;
 
-import org.omg.SendingContext.RunTime;
-
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -13,19 +11,46 @@ import java.util.function.BinaryOperator;
 /**
  * Created by mikedev on 13/07/16.
  */
-interface ListOperation<T>
-{
+interface ListOperation<T> extends Operation<T> {
     Collection<T> getCollection();
-    Iterator<T> getIterator();
+    Iterator<T> iterator();
     <S> List<S> makeCollection();
     boolean isParallel();
     void toggleParallel();
 
+    @Override
+    default boolean all(Predicate<T> predicate){
+        Iterator<T> it = iterator();
+        while(it.hasNext())
+        {
+            if(!predicate.test(it.next()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    default boolean any(Predicate<T> predicate)
+    {
+        Iterator<T> it = iterator();
+        while(it.hasNext())
+        {
+            if(predicate.test(it.next()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     default void forEach(Modifier<T> alterator)
     {
         if(!isParallel())
         {
-            getIterator().forEachRemaining(alterator::alter);
+            iterator().forEachRemaining(alterator::alter);
         }
         else
         {
@@ -40,6 +65,7 @@ interface ListOperation<T>
 
     }
 
+    @Override
     default void forEachIndexed(ModifierIndexed<T> mI)
     {
         Iterator<T> curr = getCollection().iterator();
@@ -57,6 +83,7 @@ interface ListOperation<T>
     }
 
 
+    @Override
     default void forEachReverse(Modifier<T> mod)
     {
         //TODO Vedere IterTools per invertire iteratore;
@@ -69,6 +96,7 @@ interface ListOperation<T>
 
 
 
+    @Override
     default <R> Collection<R> map(Function<T, R> mapper)
     {
         List<R> newCollection = makeCollection();
@@ -79,6 +107,7 @@ interface ListOperation<T>
         return newCollection;
     }
 
+    @Override
     default <R> Collection<R> mapIndexed(BiFunction<Integer, T, R> mapper)
     {
         List<R> newCollection = makeCollection();
@@ -89,6 +118,7 @@ interface ListOperation<T>
         return newCollection;
     }
 
+    @Override
     default Collection<T> filter(Predicate<T> predicate)
     {
         List<T> newCollection = makeCollection();
@@ -102,6 +132,7 @@ interface ListOperation<T>
         return newCollection;
     }
 
+    @Override
     default Collection<T> filterIndexed(BiPredicate<Integer, T> predicate)
     {
         List<T> newCollection = makeCollection();
@@ -114,6 +145,7 @@ interface ListOperation<T>
         return newCollection;
     }
 
+    @Override
     default T reduce(BinaryOperator<T> accumulator)
     {
         final T[] result = (T[]) new Object[]{null};
@@ -126,6 +158,7 @@ interface ListOperation<T>
         return result[0];
     }
 
+    @Override
     default T reduceReverse(BinaryOperator<T> accumulator)
     {
         final T[] result = (T[]) new Object[]{null};
@@ -139,6 +172,7 @@ interface ListOperation<T>
         return result[0];
     }
 
+    @Override
     default T maxBy(Comparator<T> comparator)
     {
         final T[] max = (T[])new Object[]{null};
@@ -166,6 +200,7 @@ interface ListOperation<T>
      * @param comparator
      * @return minimum value
      */
+    @Override
     default T minBy(Comparator<T> comparator)
     {
         final T[] min = (T[]) new Object[]{null};
@@ -187,6 +222,7 @@ interface ListOperation<T>
         return min[0];
     }
 
+    @Override
     default <E> Map<E, ArrayList2<T>> groupBy(Function<T, E> thisFuct)
     {
         Map<E,ArrayList2<T>> hashMap = new HashMap<E, ArrayList2<T>>();
@@ -200,6 +236,7 @@ interface ListOperation<T>
 
     }
 
+    @Override
     default int count(Predicate<T> fCounter)
     {
         final int[] c = {0};
@@ -210,6 +247,7 @@ interface ListOperation<T>
         return c[0];
     }
 
+    @Override
     default Collection<T> orderBy(Comparator<T> comparator)
     {
         List<T> orderedList = makeCollection();
@@ -227,9 +265,10 @@ interface ListOperation<T>
         return orderedList;
     }
 
+    @Override
     default Collection<T> orderDecrescentBy(Comparator<T> comparator)
     {
-        ArrayList2<T> crescentList = (ArrayList2) (orderBy(comparator));
+        List<T> crescentList = (List<T>) (orderBy(comparator));
         int n = crescentList.size();
         for(int i = 0, reverse = n-i-1; i < n/2; i++)
         {
@@ -240,6 +279,7 @@ interface ListOperation<T>
         return crescentList;
     }
 
+    @Override
     default T last()
     {
         int lastIndex = getCollection().size() - 1;
@@ -266,6 +306,7 @@ interface ListOperation<T>
      * @param <X> Type of elements of input list
      * @return A collection containing all two the elements
      */
+    @Override
     default <X> Collection<Pair<T,X>> zipWith(Collection<X> other)
     {
         if(other.size() > getCollection().size()) {
@@ -276,6 +317,25 @@ interface ListOperation<T>
         List<Pair<T,X>> pairCollection = makeCollection();
         forEach((x) -> pairCollection.add(new Pair<T,X>(x, otIt.next())));
         return pairCollection;
+    }
+
+    @Override
+    default Collection<T> distinct()
+    {
+        List<T> distinctList = makeCollection();
+        distinctList.addAll(getCollection());
+        for(int i = 0; i < distinctList.size(); i++)
+        {
+            for(int j = i+1; j < distinctList.size(); j++)
+            {
+                if(i!=j && distinctList.get(i).equals(distinctList.get(j)))
+                {
+                    distinctList.remove(j);
+                    j--;
+                }
+            }
+        }
+        return distinctList;
     }
 
 }
