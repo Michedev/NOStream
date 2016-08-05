@@ -28,5 +28,6 @@ Java library that avoid use of Stream interface.
  * maxBy<br />
  * minBy<br />
  * distinct <br />
+ * reverse <br/>
 * To be implemented:<br />
  * forEachReverse<br />
