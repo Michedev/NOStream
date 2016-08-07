@@ -37,12 +37,74 @@ public class TestArrayList {
         Collections.addAll(l2,54,11,3,4,5,14,31,53,43,90,67);
     }
 
+    @Test
+    public void testAll1()
+    {
+        assertTrue(l1.all(x -> x>0));
+    }
+
+    @Test
+    public void testAll2()
+    {
+        assertFalse(l1.all(x -> x>15));
+    }
+
+    @Test
+    public void testAny1()
+    {
+        assertTrue(l1.any(x -> x>15));
+    }
+
+    @Test
+    public void testAny2()
+    {
+        assertFalse(l1.any(x -> x>165));
+    }
+
+    @Test
+    public void testBubbleSort1()
+    {
+        ArrayList<Integer> ordList = Sorting.bubbleSort(l1, Integer::compare);
+        assertEquals(ordList.lastOrNull().intValue(), 43);
+        assertEquals(ordList.get(0).intValue(), 1);
+        assertEquals(ordList.get(1).intValue(), 3);
+        assertEquals(ordList.get(2).intValue(), 4);
+    }
+
+    @Test
+    public void testCount1()
+    {
+        assertEquals(l1.count(x -> x%2 == 1), 5);
+    }
+
+    @Test
+    public void testCount2()
+    {
+        assertEquals(l1.count(x -> x%2 == 0), 1);
+    }
+
+    @Test
+    public void testCount3()
+    {
+        assertEquals(l2.count(x -> x%5 == 0),2);
+    }
+
+    @Test
+    public void testDistinct1()
+    {
+        Point p1 = new Point(1,1);
+        Point p2 = new Point(3,3);
+        ArrayList<Point> a = new ArrayList<>();
+        Collections.addAll(a, p1,p1,p2,p1,p2, new Point(1,1), p2, p1, new Point(3,3));
+        assertEquals(a.distinct().size(), 2);
+    }
 
     @Test
     public void testFilter1()
     {
         assertEquals(l1.filter(x -> x > 10).size(), 3);
     }
+
     @Test
     public void testFilter2()
     {
@@ -59,6 +121,22 @@ public class TestArrayList {
     public void testFilter4()
     {
         assertEquals(l1.filter(x -> x > 20).get(0).intValue(), 43);
+    }
+
+    @Test
+    public void testGroupBy1()
+    {
+        Map<Integer, Collection<Integer>> map = l1.groupBy(x -> x % 5);
+        assertEquals(map.get(1).size(), 2);
+        assertTrue(map.get(1).contains(41));
+    }
+
+    @Test
+    public void testGroupBy2()
+    {
+        Map<Point, Collection<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
+        assertEquals(map.get(new Point(0,0)).size(), 2);
+        assertTrue(map.get(new Point(0,0)).contains(3) && map.get(new Point(0,0)).contains(39));
     }
 
     @Test
@@ -101,22 +179,6 @@ public class TestArrayList {
     }
 
     @Test
-    public void testBubbleSort1()
-    {
-        ArrayList<Integer> ordList = Sorting.bubbleSort(l1, Integer::compare);
-        assertEquals(ordList.lastOrNull().intValue(), 43);
-        assertEquals(ordList.get(0).intValue(), 1);
-        assertEquals(ordList.get(1).intValue(), 3);
-        assertEquals(ordList.get(2).intValue(), 4);
-    }
-
-    @Test
-    public void testReverseBubbleSort1()
-    {
-        assertEquals(Sorting.bubbleSortDecrescent(l1, Integer::compare).get(0).intValue(), 43);
-    }
-
-    @Test
     public void testOrderBy1()
     {
         assertEquals(l2.orderBy(Integer::compare).get(0).intValue(), 3);
@@ -133,73 +195,52 @@ public class TestArrayList {
     {
         assertEquals(l1.orderDecrescentBy(Integer::compare).get(0).intValue(), 43);
     }
+
     @Test
-    public void testGroupBy1()
+    public void testReverseBubbleSort1()
     {
-        Map<Integer, Collection<Integer>> map = l1.groupBy(x -> x % 5);
-        assertEquals(map.get(1).size(), 2);
-        assertTrue(map.get(1).contains(41));
+        assertEquals(Sorting.bubbleSortDecrescent(l1, Integer::compare).get(0).intValue(), 43);
     }
 
     @Test
-    public void testGroupBy2()
+    public void testReduce1()
     {
-        Map<Point, Collection<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
-        assertEquals(map.get(new Point(0,0)).size(), 2);
-        assertTrue(map.get(new Point(0,0)).contains(3) && map.get(new Point(0,0)).contains(39));
+        assertEquals(l1.reduce(Integer::sum).intValue(), 131);
     }
 
     @Test
-    public void testCount1()
+    public void testReduce2()
     {
-        assertEquals(l1.count(x -> x%2 == 1), 5);
-    }
-
-
-    @Test
-    public void testCount2()
-    {
-        assertEquals(l1.count(x -> x%2 == 0), 1);
+        assertEquals(l1.reduce((a,b) -> a - b).intValue(), -125);
     }
 
     @Test
-    public void testCount3()
+    public void testReduceReverse1()
     {
-        assertEquals(l2.count(x -> x%5 == 0),2);
+        assertEquals(l1.reduceReverse(Integer::sum).intValue(), 131);
     }
 
     @Test
-    public void testDistinct1()
+    public void testReduceReverse2()
     {
-        Point p1 = new Point(1,1);
-        Point p2 = new Point(3,3);
-        ArrayList<Point> a = new ArrayList<>();
-        Collections.addAll(a, p1,p1,p2,p1,p2, new Point(1,1), p2, p1, new Point(3,3));
-        assertEquals(a.distinct().size(), 2);
+        assertEquals(l1.reduceReverse((a,b) -> a - b).intValue(), -53);
     }
 
     @Test
-    public void testAll1()
+    public void testUnion1()
     {
-        assertTrue(l1.all(x -> x>0));
+        Collection<Integer> union = l1.union(l2);
+        assertEquals(union.size(), l1.size()+l2.size());
+        assertEquals(l1.first(), union.first());
+        assertNotEquals(l1.last(), union.last());
+        assertEquals(l2.last(), union.last());
     }
 
     @Test
-    public void testAll2()
+    public void testIntersection1()
     {
-        assertFalse(l1.all(x -> x>15));
-    }
+        Collection<Integer> intersection = l1.intersection(l2);
 
-    @Test
-    public void testAny1()
-    {
-        assertTrue(l1.any(x -> x>15));
-    }
-
-    @Test
-    public void testAny2()
-    {
-        assertFalse(l1.any(x -> x>165));
     }
 
     @Test

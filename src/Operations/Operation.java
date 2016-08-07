@@ -43,6 +43,8 @@ public interface Operation<T> {
 
     <E> Map<E, Collection<T>> groupBy(Function<T, E> thisFuct);
 
+    java.util.Collection<T> intersection(java.util.Collection<T> collection);
+
     T last(T defaultValue);
 
     T last();
@@ -75,9 +77,13 @@ public interface Operation<T> {
 
     java.util.Collection takeLast(int n);
 
+    java.util.Collection<T> union(java.util.Collection<T> collection);
+
+    Collection<Pair<T, Integer>> zipIndexed();
+
     <X> java.util.Collection<Pair<T,X>> zipWith(Collection<X> other);
 
-    default java.util.Collection filterNotNull(){
+    default java.util.Collection<T> filterNotNull(){
         return filter(x -> x!= null);
     }
 

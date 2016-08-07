@@ -176,6 +176,20 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
+    default Collection<T> intersection(java.util.Collection<T> collection) {
+        Collection<T> intersectColl = makeCollection();
+        java.util.Collection<T> firstCollection = size() > collection.size()? collection : this;
+        java.util.Collection<T> secondCollection = firstCollection == this ? this : collection;
+        for(T e : firstCollection)
+        {
+            if(secondCollection.contains(e)){
+                intersectColl.add(e);
+            }
+        }
+        return intersectColl;
+    }
+
+    @Override
     default T last(T defaultValue) {
         T lastEl = lastOrNull();
         return lastEl != null ? lastEl : defaultValue;
@@ -267,7 +281,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
      * If two elements are equals doesn't change the min.
      *
      * @param comparator
-     * @return minimum value
+     * @return minimum value by comparator
      */
     @Override
     default T minBy(Comparator<T> comparator) {
@@ -328,14 +342,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
 
     @Override
     default T reduceReverse(BinaryOperator<T> accumulator) {
-        final T[] result = (T[]) new Object[]{null};
-        final boolean[] first = {true};
-        forEach(e ->
-        {
-            result[0] = first[0] ? e : accumulator.apply(result[0], e);
-            first[0] = false;
-        });
-        return result[0];
+        return reverse().reduce(accumulator);
     }
 
     @Override
@@ -368,7 +375,24 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
 
     @Override
     default Collection<T> takeLast(int n) {
-        return ((Collection<T>) reverse()).take(n);
+        return reverse().take(n);
+    }
+
+    @Override
+    default Collection<T> union(java.util.Collection<T> collection){
+        Collection<T> unionColl = makeCollection();
+        unionColl.addAll(this);
+        unionColl.addAll(collection);
+        return unionColl;
+    }
+
+    @Override
+    default Collection<Pair<T, Integer>> zipIndexed(){
+        Collection<Integer> indxCollection = makeCollection();
+        for(int i = 0; i < size(); i++){
+            indxCollection.add(i);
+        }
+        return zipWith(indxCollection);
     }
 
     /**

@@ -3,14 +3,12 @@ package Structures;
 import utils.Pair;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.function.*;
 
 /**
  * Created by mikedev on 31/07/16.
  */
-public class ArrayList<T> extends java.util.ArrayList<T> implements List<T>
-{
+public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     @Override
     public ArrayList<T> filter(Predicate<T> predicate) {
         return ((ArrayList<T>) List.super.filter(predicate));
@@ -20,17 +18,6 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T>
     public ArrayList<T> filterIndexed(BiPredicate<Integer, T> predicate) {
         return ((ArrayList<T>) List.super.filterIndexed(predicate));
     }
-
-    /*@Override
-    public ArrayList<T> getCollection() {
-        return this;
-    }
-
-    @Override
-    public boolean isParallel()
-    {
-        return false;
-    }*/
 
 
     @Override
@@ -58,14 +45,44 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T>
         return ((ArrayList<T>) List.super.orderDecrescentBy(comparator));
     }
 
-    /*@Override
-    public void toggleParallel()
-    {
-        throw new RuntimeException("Method not implemented");
-    }*/
 
     @Override
     public <X> ArrayList<Pair<T, X>> zipWith(Collection<X> other) {
         return (ArrayList<Pair<T, X>>) List.super.zipWith(other);
+    }
+
+    @Override
+    public ArrayList<Pair<T, Integer>> zipIndexed() {
+        return (ArrayList<Pair<T, Integer>>) List.super.zipIndexed();
+    }
+
+    @Override
+    public ArrayList<T> distinct() {
+        return ((ArrayList<T>) List.super.distinct());
+    }
+
+    @Override
+    public ArrayList<T> reverse() {
+        return ((ArrayList<T>) List.super.reverse());
+    }
+
+    @Override
+    public ArrayList<T> take(int n) {
+        return ((ArrayList<T>) List.super.take(n));
+    }
+
+    @Override
+    public ArrayList<T> takeLast(int n) {
+        return ((ArrayList<T>) List.super.takeLast(n));
+    }
+
+    @Override
+    public ArrayList<T> union(java.util.Collection<T> collection) {
+        return ((ArrayList<T>) List.super.union(collection));
+    }
+
+    @Override
+    public ArrayList<T> intersection(java.util.Collection<T> collection) {
+        return ((ArrayList<T>) List.super.intersection(collection));
     }
 }
