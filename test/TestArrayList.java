@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import test_classes.Point;
+import utils.Pair;
 import utils.Sorting;
 
 import static org.junit.Assert.*;
@@ -199,5 +200,12 @@ public class TestArrayList {
     public void testAny2()
     {
         assertFalse(l1.any(x -> x>165));
+    }
+
+    @Test
+    public void testZipWith1()
+    {
+        ArrayList<Pair<Integer, Integer>> res = l1.zipWith(l2);
+        assertEquals(res.size(), l1.size());
     }
 }

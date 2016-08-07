@@ -1,5 +1,7 @@
 package Structures;
 
+import utils.Pair;
+
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.*;
@@ -10,22 +12,6 @@ import java.util.function.*;
 public class ArrayList<T> extends java.util.ArrayList<T> implements List<T>
 {
     @Override
-    public ArrayList<T> getCollection() {
-        return this;
-    }
-
-    @Override
-    public Iterator<T> iterator()
-    {
-        return super.iterator();
-    }
-    @Override
-    public <S> ArrayList<S> makeCollection() {
-        return new ArrayList<S>();
-    }
-
-
-    @Override
     public ArrayList<T> filter(Predicate<T> predicate) {
         return ((ArrayList<T>) List.super.filter(predicate));
     }
@@ -35,17 +21,22 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T>
         return ((ArrayList<T>) List.super.filterIndexed(predicate));
     }
 
-
-    @Override
-    public ArrayList<T> orderBy(Comparator<T> comparator) {
-        return ((ArrayList<T>) List.super.orderBy(comparator));
+    /*@Override
+    public ArrayList<T> getCollection() {
+        return this;
     }
 
     @Override
-    public ArrayList<T> orderDecrescentBy(Comparator<T> comparator) {
-        return ((ArrayList<T>) List.super.orderDecrescentBy(comparator));
-    }
+    public boolean isParallel()
+    {
+        return false;
+    }*/
 
+
+    @Override
+    public <S> ArrayList<S> makeCollection() {
+        return new ArrayList<S>();
+    }
 
     @Override
     public <R> ArrayList<R> map(Function<T, R> mapper) {
@@ -58,16 +49,23 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T>
     }
 
     @Override
-    public boolean isParallel()
-    {
-        return false;
+    public ArrayList<T> orderBy(Comparator<T> comparator) {
+        return ((ArrayList<T>) List.super.orderBy(comparator));
     }
 
     @Override
+    public ArrayList<T> orderDecrescentBy(Comparator<T> comparator) {
+        return ((ArrayList<T>) List.super.orderDecrescentBy(comparator));
+    }
+
+    /*@Override
     public void toggleParallel()
     {
         throw new RuntimeException("Method not implemented");
+    }*/
+
+    @Override
+    public <X> ArrayList<Pair<T, X>> zipWith(Collection<X> other) {
+        return (ArrayList<Pair<T, X>>) List.super.zipWith(other);
     }
-
-
 }

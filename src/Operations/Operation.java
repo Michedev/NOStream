@@ -1,8 +1,8 @@
 package Operations;
 
-import Functions.Modifier;
-import Functions.ModifierIndexed;
+import Functions.ConsumerIndexed;
 import Structures.Collection;
+import utils.Pair;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -25,10 +25,6 @@ public interface Operation<T> {
 
     java.util.Collection filterIndexed(BiPredicate<Integer, T> predicate);
 
-    default java.util.Collection filterNotNull(){
-        return filter(x -> x!= null);
-    }
-
     T first();
 
     T first(T defaultValue);
@@ -39,23 +35,23 @@ public interface Operation<T> {
 
     T firstOrNull(Predicate<T> predicate);
 
-    void forEach(Modifier<T> alterator);
+    void forEachIndexed(ConsumerIndexed<? super T> mI);
 
-    void forEachIndexed(ModifierIndexed<T> mI);
+    //void forEach(Consumer<? super T> consumer);
 
-    void forEachReverse(Modifier<T> mod);
+    void forEachReverse(Consumer<? super T> mod);
 
     <E> Map<E, Collection<T>> groupBy(Function<T, E> thisFuct);
-
-    T lastOrNull();
-
-    T lastOrNull(Predicate<T> predicate);
 
     T last(T defaultValue);
 
     T last();
 
     T last(Predicate<T> predicate, T defaultValue);
+
+    T lastOrNull();
+
+    T lastOrNull(Predicate<T> predicate);
 
     <R> java.util.Collection map(Function<T, R> mapper);
 
@@ -73,12 +69,16 @@ public interface Operation<T> {
 
     T reduceReverse(BinaryOperator<T> accumulator);
 
+    java.util.Collection reverse();
+
     java.util.Collection take(int n);
 
     java.util.Collection takeLast(int n);
 
-    <X> java.util.Collection zipWith(java.util.Collection other);
+    <X> java.util.Collection<Pair<T,X>> zipWith(Collection<X> other);
 
-    java.util.Collection reverse();
+    default java.util.Collection filterNotNull(){
+        return filter(x -> x!= null);
+    }
 
 }
