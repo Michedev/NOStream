@@ -33,4 +33,5 @@ Java library that avoid use of Stream interface.
    * take
    * takeLast
    * zipWith
-
+* How to use:
+    Import jar in your project then replace Java.util.[(ArrayList) (List) (Collection)] with NOStream.structures.[(ArrayList) (List) (Collection)]
