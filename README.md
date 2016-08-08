@@ -19,6 +19,7 @@ Java library that avoid use of Stream interface.
    * forEachIndexed
    * forEachReverse
    * groupBy
+   * intersection
    * last
    * lastOrNull
    * map
@@ -32,6 +33,8 @@ Java library that avoid use of Stream interface.
    * reverse
    * take
    * takeLast
+   * union
+   * zipIndexed
    * zipWith
-* How to use:
-    Import jar in your project then replace Java.util.[(ArrayList) (List) (Collection)] with NOStream.structures.[(ArrayList) (List) (Collection)]
+* How to use: <br\>
+&emsp;    Import jar in your project then replace Java.util.[(ArrayList) (List) (Collection)] with NOStream.structures.[(ArrayList) (List) (Collection)]
