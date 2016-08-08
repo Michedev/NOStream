@@ -36,5 +36,5 @@ Java library that avoid use of Stream interface.
    * union
    * zipIndexed
    * zipWith
-* How to use: <br\>
+* How to use: <br/>
 &emsp;    Import jar in your project then replace java.util.[Collection name] with NOStream.structures.[Collection name]
