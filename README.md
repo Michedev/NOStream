@@ -4,7 +4,6 @@ Java library that avoid use of Stream interface.
 
 * Current classes: <br />
    * Collection, List, ArrayList, LinkedList extends the counterpart Java structures . <br />
-   * ListOperation : Interface with default methods that are a my implementation of the fuctions. <br />
 * Fuctions are: <br />
    * all
    * any
