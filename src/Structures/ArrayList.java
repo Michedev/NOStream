@@ -10,15 +10,24 @@ import java.util.function.*;
  */
 public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     @Override
+    public ArrayList<T> distinct() {
+        return ((ArrayList<T>) List.super.distinct());
+    }
+
+    @Override
     public ArrayList<T> filter(Predicate<T> predicate) {
         return ((ArrayList<T>) List.super.filter(predicate));
     }
 
     @Override
-    public ArrayList<T> filterIndexed(BiPredicate<Integer, T> predicate) {
+    public ArrayList<T> filterIndexed(BiPredicate<T, Integer> predicate) {
         return ((ArrayList<T>) List.super.filterIndexed(predicate));
     }
 
+    @Override
+    public ArrayList<T> intersection(java.util.Collection<T> collection) {
+        return ((ArrayList<T>) List.super.intersection(collection));
+    }
 
     @Override
     public <S> ArrayList<S> makeCollection() {
@@ -31,7 +40,7 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <R> ArrayList<R> mapIndexed(BiFunction<Integer, T, R> mapper) {
+    public <R> ArrayList<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
         return ((ArrayList<R>) List.super.mapIndexed(mapper));
     }
 
@@ -43,22 +52,6 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     @Override
     public ArrayList<T> orderDecrescentBy(Comparator<T> comparator) {
         return ((ArrayList<T>) List.super.orderDecrescentBy(comparator));
-    }
-
-
-    @Override
-    public <X> ArrayList<Pair<T, X>> zipWith(Collection<X> other) {
-        return (ArrayList<Pair<T, X>>) List.super.zipWith(other);
-    }
-
-    @Override
-    public ArrayList<Pair<T, Integer>> zipIndexed() {
-        return (ArrayList<Pair<T, Integer>>) List.super.zipIndexed();
-    }
-
-    @Override
-    public ArrayList<T> distinct() {
-        return ((ArrayList<T>) List.super.distinct());
     }
 
     @Override
@@ -82,7 +75,12 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
     @Override
-    public ArrayList<T> intersection(java.util.Collection<T> collection) {
-        return ((ArrayList<T>) List.super.intersection(collection));
+    public ArrayList<Pair<T, Integer>> zipIndexed() {
+        return (ArrayList<Pair<T, Integer>>) List.super.zipIndexed();
+    }
+
+    @Override
+    public <X> ArrayList<Pair<T, X>> zipWith(Collection<X> other) {
+        return (ArrayList<Pair<T, X>>) List.super.zipWith(other);
     }
 }

@@ -140,6 +140,16 @@ public class TestArrayList {
     }
 
     @Test
+    public void testIntersection1()
+    {
+        Collection<Integer> intersection = l1.intersection(l2);
+        assertEquals(intersection.size(), 3);
+        assertTrue(intersection.contains(3));
+        assertTrue(intersection.contains(43));
+        assertTrue(intersection.contains(4));
+    }
+
+    @Test
     /**
      * test Identity function
      */
@@ -197,12 +207,6 @@ public class TestArrayList {
     }
 
     @Test
-    public void testReverseBubbleSort1()
-    {
-        assertEquals(Sorting.bubbleSortDecrescent(l1, Integer::compare).get(0).intValue(), 43);
-    }
-
-    @Test
     public void testReduce1()
     {
         assertEquals(l1.reduce(Integer::sum).intValue(), 131);
@@ -227,6 +231,12 @@ public class TestArrayList {
     }
 
     @Test
+    public void testReverseBubbleSort1()
+    {
+        assertEquals(Sorting.bubbleSortDecrescent(l1, Integer::compare).get(0).intValue(), 43);
+    }
+
+    @Test
     public void testUnion1()
     {
         Collection<Integer> union = l1.union(l2);
@@ -234,13 +244,6 @@ public class TestArrayList {
         assertEquals(l1.first(), union.first());
         assertNotEquals(l1.last(), union.last());
         assertEquals(l2.last(), union.last());
-    }
-
-    @Test
-    public void testIntersection1()
-    {
-        Collection<Integer> intersection = l1.intersection(l2);
-
     }
 
     @Test

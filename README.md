@@ -3,7 +3,7 @@
 Java library that avoid use of Stream interface.
 
 * Current classes: <br />
-   * Collection, List, ArrayList extends the counterpart Java structures . <br />
+   * Collection, List, ArrayList, LinkedList extends the counterpart Java structures . <br />
    * ListOperation : Interface with default methods that are a my implementation of the fuctions. <br />
 * Fuctions are: <br />
    * all
@@ -37,4 +37,4 @@ Java library that avoid use of Stream interface.
    * zipIndexed
    * zipWith
 * How to use: <br\>
-&emsp;    Import jar in your project then replace Java.util.[(ArrayList) (List) (Collection)] with NOStream.structures.[(ArrayList) (List) (Collection)]
+&emsp;    Import jar in your project then replace java.util.[Collection name] with NOStream.structures.[Collection name]

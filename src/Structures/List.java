@@ -25,7 +25,7 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
     }
     
     @Override
-    default List<T> filterIndexed(BiPredicate<Integer, T> predicate) {
+    default List<T> filterIndexed(BiPredicate<T, Integer> predicate) {
         return  ((List<T>) Collection.super.filterIndexed(predicate));
     }
 
@@ -40,7 +40,7 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
     }
 
     @Override
-    default <R>  List<R> mapIndexed(BiFunction<Integer, T, R> mapper) {
+    default <R>  List<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
         return ((List<R>) Collection.super.mapIndexed(mapper));
     }
 

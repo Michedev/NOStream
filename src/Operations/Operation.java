@@ -23,7 +23,7 @@ public interface Operation<T> {
 
     java.util.Collection filter(Predicate<T> predicate);
 
-    java.util.Collection filterIndexed(BiPredicate<Integer, T> predicate);
+    java.util.Collection filterIndexed(BiPredicate<T, Integer> predicate);
 
     T first();
 
@@ -57,7 +57,7 @@ public interface Operation<T> {
 
     <R> java.util.Collection map(Function<T, R> mapper);
 
-    <R> java.util.Collection mapIndexed(BiFunction<Integer, T, R> mapper);
+    <R> java.util.Collection mapIndexed(BiFunction<T, Integer, R> mapper);
 
     T maxBy(Comparator<T> comparator);
 

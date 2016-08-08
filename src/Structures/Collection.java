@@ -98,11 +98,11 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
-    default Collection<T> filterIndexed(BiPredicate<Integer, T> predicate) {
+    default Collection<T> filterIndexed(BiPredicate<T, Integer> predicate) {
         Collection<T> newCollection = makeCollection();
-        forEachIndexed((i, e) ->
+        forEachIndexed((e, i) ->
         {
-            if (predicate.test(i, e)) {
+            if (predicate.test(e, i)) {
                 newCollection.add(e);
             }
         });
@@ -152,7 +152,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
             if (!curr.hasNext() && i < n - 1) {
                 throw new IndexOutOfBoundsException("iterator not has next and index is less than lastOrNull element");
             }
-            mI.alter(i, curr.next());
+            mI.alter(curr.next(), i);
             i++;
         }
 
@@ -179,7 +179,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     default Collection<T> intersection(java.util.Collection<T> collection) {
         Collection<T> intersectColl = makeCollection();
         java.util.Collection<T> firstCollection = size() > collection.size()? collection : this;
-        java.util.Collection<T> secondCollection = firstCollection == this ? this : collection;
+        java.util.Collection<T> secondCollection = firstCollection == this ? collection : this;
         for(T e : firstCollection)
         {
             if(secondCollection.contains(e)){
@@ -250,11 +250,11 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
-    default <R> Collection<R> mapIndexed(BiFunction<Integer, T, R> mapper) {
+    default <R> Collection<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
         List<R> newCollection = (List<R>) makeCollection();
-        forEachIndexed((i, e) ->
+        forEachIndexed((e, i) ->
         {
-            newCollection.add(mapper.apply(i, e));
+            newCollection.add(mapper.apply(e, i));
         });
         return newCollection;
     }
