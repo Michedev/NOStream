@@ -3,6 +3,7 @@ package Structures;
 import utils.Pair;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.function.*;
 
 /**
@@ -82,5 +83,16 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     @Override
     public <X> ArrayList<Pair<T, X>> zipWith(Collection<X> other) {
         return (ArrayList<Pair<T, X>>) List.super.zipWith(other);
+    }
+
+    @Override
+    public String toString() {
+        Iterator<T> it = iterator();
+        String print = "[";
+        while(it.hasNext())
+        {
+            print += it.next()+ (it.hasNext()? ", ": " ]");
+        }
+        return print;
     }
 }

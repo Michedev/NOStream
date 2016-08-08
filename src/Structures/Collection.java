@@ -415,4 +415,5 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
         forEach((x) -> pairCollection.add(new Pair<T, X>(x, otIt.next())));
         return pairCollection;
     }
+
 }
