@@ -1,4 +1,4 @@
-package Functions;
+package functions;
 
 /**
  * Created by mikedev on 02/08/16.

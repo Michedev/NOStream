@@ -1,8 +1,8 @@
 /**
  * Created by mikedev on 01/08/16.
  */
-import Structures.ArrayList;
-import Structures.Collection;
+import structures.ArrayList;
+import structures.Collection;
 import org.junit.Before;
 import org.junit.Test;
 

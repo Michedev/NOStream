@@ -1,6 +1,6 @@
 package utils;
 
-import Structures.ArrayList;
+import structures.ArrayList;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package Structures;
+package structures;
 
 import utils.Pair;
 

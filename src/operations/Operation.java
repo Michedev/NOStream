@@ -1,7 +1,7 @@
-package Operations;
+package operations;
 
-import Functions.ConsumerIndexed;
-import Structures.Collection;
+import functions.ConsumerIndexed;
+import structures.Collection;
 import utils.Pair;
 
 import java.util.Comparator;

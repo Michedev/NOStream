@@ -1,7 +1,7 @@
-package Structures;
+package structures;
 
-import Functions.ConsumerIndexed;
-import Operations.Operation;
+import functions.ConsumerIndexed;
+import operations.Operation;
 import utils.Pair;
 import utils.Sorting;
 
