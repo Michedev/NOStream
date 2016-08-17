@@ -7,14 +7,15 @@ Java library that avoid use of Stream interface.
 * Fuctions are: <br />
    * all
    * any
+   * apply
    * count
    * distinct
+   * equals
    * filter
    * filterIndexed
    * filterNotNull
    * first
    * firstOrNull
-   * forEach
    * forEachIndexed
    * forEachReverse
    * groupBy
@@ -26,7 +27,7 @@ Java library that avoid use of Stream interface.
    * maxBy
    * minBy
    * orderBy
-   * orderDecrescentBy
+   * orderDecreasingBy
    * reduce
    * reduceReverse
    * reverse
