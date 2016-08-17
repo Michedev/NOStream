@@ -39,4 +39,4 @@ Java library that avoid use of Stream interface.
 * How to use: <br/>
 &emsp;    Import jar in your project then replace java.util.[Collection name] with structures.[Collection name]
 * How to download jar: <br/>
-&emsp;  <a href="ftp://nostream@mikedev:nostream@ftp.mikedev.altervista.org/"> NOStream Download from my FTP Server</a>
+&emsp;  <a href="http://goo.gl/I2s5pb">NOStream Download </a>
