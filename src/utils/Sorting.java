@@ -62,7 +62,6 @@ public class Sorting {
         if(!(order == -1 || order == 0 || order == 1)){
             throw new IllegalArgumentException("Order value can be only -1,0,1");
         }
-        ArrayList<T> orderedList = new ArrayList<T>();
         T[] unorderedArray = (T[]) new Object[collection.size()];
         collection.toArray(unorderedArray);
         boolean flagStop = true;

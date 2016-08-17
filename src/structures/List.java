@@ -30,6 +30,11 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
     }
 
     @Override
+    default List<T> filterNotNull() {
+        return (List<T>) Collection.super.filterNotNull();
+    }
+
+    @Override
     default List<T> intersection(java.util.Collection<T> collection) {
         return ((List<T>) Collection.super.intersection(collection));
     }
@@ -50,8 +55,8 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
     }
 
     @Override
-    default List<T> orderDecrescentBy(Comparator<T> comparator) {
-        return ((List<T>) Collection.super.orderDecrescentBy(comparator));
+    default List<T> orderDecreasingBy(Comparator<T> comparator) {
+        return ((List<T>) Collection.super.orderDecreasingBy(comparator));
     }
 
     @Override

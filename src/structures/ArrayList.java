@@ -26,6 +26,11 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
     @Override
+    public ArrayList<T> filterNotNull() {
+        return (ArrayList<T>) List.super.filterNotNull();
+    }
+
+    @Override
     public ArrayList<T> intersection(java.util.Collection<T> collection) {
         return ((ArrayList<T>) List.super.intersection(collection));
     }
@@ -51,8 +56,8 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
     @Override
-    public ArrayList<T> orderDecrescentBy(Comparator<T> comparator) {
-        return ((ArrayList<T>) List.super.orderDecrescentBy(comparator));
+    public ArrayList<T> orderDecreasingBy(Comparator<T> comparator) {
+        return ((ArrayList<T>) List.super.orderDecreasingBy(comparator));
     }
 
     @Override

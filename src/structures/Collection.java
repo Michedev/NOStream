@@ -110,6 +110,11 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
+    default Collection<T> filterNotNull() {
+        return (Collection<T>) Operation.super.filterNotNull();
+    }
+
+    @Override
     default T first() {
         return iterator().next();
     }
@@ -317,7 +322,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
-    default Collection<T> orderDecrescentBy(Comparator<T> comparator) {
+    default Collection<T> orderDecreasingBy(Comparator<T> comparator) {
         List<T> crescentList = (List<T>) (orderBy(comparator));
         int n = crescentList.size();
         for (int i = 0, reverse = n - i - 1; i < n / 2; i++) {
@@ -395,15 +400,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
         return zipWith(indxCollection);
     }
 
-    /**
-     * Zip the current list with another making a collection of pair of the two list
-     * Note that if the dimension of input is more than of the invoker the size of the new collection
-     * is equals to the size of invoker so the remaining elements of input are ignored
-     *
-     * @param other : list to zip
-     * @param <X>   Type of elements of input list
-     * @return A collection containing all two the elements
-     */
+
     @Override
     default <X> Collection<Pair<T, X>> zipWith(Collection<X> other) {
         if (other.size() < this.size()) {

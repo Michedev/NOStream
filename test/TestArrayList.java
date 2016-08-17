@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.Map;
 
+import structures.List;
 import test_classes.Point;
 import utils.Pair;
 import utils.Sorting;
@@ -197,13 +198,13 @@ public class TestArrayList {
     @Test
     public void testOrderDecrescentBy1()
     {
-        assertEquals(l2.orderDecrescentBy(Integer::compare).get(0).intValue(), 90);
+        assertEquals(l2.orderDecreasingBy(Integer::compare).get(0).intValue(), 90);
     }
 
     @Test
     public void testOrderDecrescentBy2()
     {
-        assertEquals(l1.orderDecrescentBy(Integer::compare).get(0).intValue(), 43);
+        assertEquals(l1.orderDecreasingBy(Integer::compare).get(0).intValue(), 43);
     }
 
     @Test
@@ -251,5 +252,19 @@ public class TestArrayList {
     {
         ArrayList<Pair<Integer, Integer>> res = l1.zipWith(l2);
         assertEquals(res.size(), l1.size());
+    }
+
+    @Test
+    public void testMapFilterReverseReduce1(){
+
+        List<Point> filteredList = l1
+                                    .map(x -> new Point(x, x * 2))
+                                    .filter(p -> p.getX() < 10);
+                                        //X: 3,4,1
+                                        //Y: 6,8,2
+        Integer result = ((int) filteredList.reduce((p1, p2) -> new Point(p1.getY()+p2.getX(), p2.getX())).getX());
+        assertEquals(result.intValue(), 5);
+        int result2 = (int) filteredList.reduce((p1, p2) -> new Point(p1.getX()+p2.getX(), p2.getY())).getX();
+        assertEquals(8, result2);
     }
 }

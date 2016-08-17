@@ -29,6 +29,11 @@ public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
     }
 
     @Override
+    public LinkedList<T> filterNotNull() {
+        return (LinkedList<T>) List.super.filterNotNull();
+    }
+
+    @Override
     public LinkedList<T> intersection(java.util.Collection<T> collection) {
         return ((LinkedList<T>) List.super.intersection(collection));
     }
@@ -54,8 +59,8 @@ public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
     }
 
     @Override
-    public LinkedList<T> orderDecrescentBy(Comparator<T> comparator) {
-        return ((LinkedList<T>) List.super.orderDecrescentBy(comparator));
+    public LinkedList<T> orderDecreasingBy(Comparator<T> comparator) {
+        return ((LinkedList<T>) List.super.orderDecreasingBy(comparator));
     }
 
     @Override
