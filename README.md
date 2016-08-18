@@ -7,10 +7,8 @@ Java library that avoid use of Stream interface.
 * Fuctions are: <br />
    * all
    * any
-   * apply
    * count
    * distinct
-   * equals
    * filter
    * filterIndexed
    * filterNotNull
