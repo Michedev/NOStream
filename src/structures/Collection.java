@@ -149,6 +149,14 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
+    default void forEach(Consumer<? super T> consumer) {
+        Iterator<T> it = iterator();
+        while(it.hasNext()){
+            consumer.accept(it.next());
+        }
+    }
+
+    @Override
     default void forEachIndexed(ConsumerIndexed<? super T> mI) {
         Iterator<T> curr = this.iterator();
         int n = this.size();
