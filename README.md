@@ -2,7 +2,7 @@
 
 Java library that avoid use of Stream interface.
 * Pros: <br />
-   * Faster than stream counterpart (Test in project can dimostrate it)
+   * Faster than stream counterpart (Test in project can dimostrate it or you can see an image <a href="http://imgur.com/a/lAFCL"> here </a>) 
    * More simple syntactically
 * How it works: <br />
    * Collection, List, ArrayList, LinkedList extends the counterpart Java structures and implement my list trasformation methods (Operation interface) . <br />
