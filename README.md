@@ -1,7 +1,9 @@
 #NOStream#
 
 Java library that avoid use of Stream interface.
-
+* Pros: <br />
+   * Faster than stream counterpart
+   * More simple syntactically
 * Current classes: <br />
    * Collection, List, ArrayList, LinkedList extends the counterpart Java structures . <br />
 * Fuctions are: <br />
