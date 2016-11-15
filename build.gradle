@@ -1,3 +1,0 @@
-apply plugin: 'idea'
-//and standard one
-apply plugin: 'java'
