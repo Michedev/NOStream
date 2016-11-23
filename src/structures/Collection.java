@@ -289,13 +289,7 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
         return max[0];
     }
 
-    /**
-     * Return the minimum element by the comparator in input.
-     * If two elements are equals doesn't change the min.
-     *
-     * @param comparator
-     * @return minimum value by comparator
-     */
+
     @Override
     default T minBy(Comparator<T> comparator) {
         final T[] min = (T[]) new Object[]{null};

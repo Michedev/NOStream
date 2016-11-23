@@ -62,7 +62,7 @@ public interface Operation<T> {
 
     /**
      *
-     * @param defaultValue
+     * @param defaultValue value returned if the collection is empty
      * @return the first element of the element or defaultValue if empty
      */
     T first(T defaultValue);
@@ -70,7 +70,7 @@ public interface Operation<T> {
     /**
      *
      * @param predicate Criteria that decide if an element of the list is true or false
-     * @param defaultValue
+     * @param defaultValue value returned if no one element of the collection satisfy the predicate
      * @return the first element that satisfy the predicate or the default value if there isn't
      */
     T first(Predicate<T>  predicate, T defaultValue);
@@ -90,13 +90,13 @@ public interface Operation<T> {
 
     /**
      * Alternative forEach with the index next to the element
-     * @param mI
+     * @param mI lambda expression applied on each element of the collection where the first argument is an element and the second its index
      */
     void forEachIndexed(ConsumerIndexed<? super T> mI);
 
     /**
      * examine the list from right to left
-     * @param mod
+     * @param mod lambda expression applied on each element of the collection
      */
     void forEachReverse(Consumer<? super T> mod);
 
@@ -111,7 +111,7 @@ public interface Operation<T> {
 
     /**
      *
-     * @param defaultValue
+     * @param defaultValue value returned if the collection is empty
      * @return the last element of the collection or the default value if empty
      */
     T last(T defaultValue);
@@ -125,7 +125,7 @@ public interface Operation<T> {
     /**
      *
      * @param predicate Criteria that decide if an element of the list is true or false
-     * @param defaultValue
+     * @param defaultValue value returned if no one element satisfy the predicate
      * @return the last element that satisfy the predicate or the default value if there isn't
      */
     T last(Predicate<T> predicate, T defaultValue);
@@ -153,9 +153,9 @@ public interface Operation<T> {
 
     /**
      * Same of map but with the index next to the input element
-     * @param mapper
-     * @param <R>
-     * @return
+     * @param mapper lambda expression that map T elements with their index associated in R elements
+     * @param <R> type returned from mapper
+     * @return a new collection of type R
      */
     <R> java.util.Collection mapIndexed(BiFunction<T, Integer, R> mapper);
 
@@ -256,7 +256,7 @@ public interface Operation<T> {
     <X> java.util.Collection<Pair<T,X>> zipWith(Collection<X> other);
 
     /**
-     * equivalent to filter(x -> x!= null)
+     * this is equivalent to {@code filter(x -> x!= null)}
      * @return a new collection with not null elements
      */
     default java.util.Collection<T> filterNotNull(){
