@@ -12,6 +12,7 @@ import java.util.function.*;
  * Created by mikedev on 05/08/16.
  */
 public interface Operation<T> {
+	
 
     /**
      *
@@ -87,6 +88,8 @@ public interface Operation<T> {
      * @return the first element of the element that satisfy the predicate or null if there isn't
      */
     T firstOrNull(Predicate<T> predicate);
+    
+    void forEach(Consumer<? super T> consumer);
 
     /**
      * Alternative forEach with the index next to the element

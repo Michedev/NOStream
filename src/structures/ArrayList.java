@@ -6,11 +6,16 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.*;
 
+import structures.builder.StructureBuilder;
+
 /**
  * Created by mikedev on 31/07/16.
  */
 public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
-    @Override
+	
+	private StructureBuilder structBuilder = new StructureBuilder();
+    
+	@Override
     public ArrayList<T> distinct() {
         return ((ArrayList<T>) List.super.distinct());
     }
@@ -37,7 +42,7 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
 
     @Override
     public <S> ArrayList<S> makeCollection() {
-        return new ArrayList<S>();
+        return structBuilder.buildArrayList();
     }
 
     @Override
@@ -100,4 +105,10 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
         }
         return print;
     }
+
+	@Override
+	public void setDestinationList(ArrayList<?> dest) {
+		structBuilder.setNextOutputArrayList(dest);
+		
+	}
 }
