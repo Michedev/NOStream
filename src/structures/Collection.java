@@ -68,21 +68,27 @@ public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
     }
 
     @Override
-    default Collection<T> distinct() {
-        Collection<T> distinctList = makeCollection();
-        distinctList.addAll(this);
-        T[] array = (T[]) toArray();
-        int n = distinctList.size();
+    default Collection<T> distinct() 
+    {
+        Collection<T> distinctCollection = makeCollection();
+        distinctCollection.addAll(this);
+        iterator().forEachRemaining(x -> {
+        	for(int i = 0; i < distinctCollection.size(); i++){
+        		
+        	}
+        });
+        /*T[] array = (T[]) toArray();
+        int n = distinctCollection.size();
         for (int i = 0; i < n; i++) {
             if(array[i] != null)
                 for (int j = i + 1; j < n; j++) {
                     if (i != j && array[j]!=null && array[i].equals(array[j])) {
-                        distinctList.remove(array[j]);
+                        distinctCollection.remove(array[j]);
                         array[j] = null;
                     }
                 }
-        }
-        return distinctList;
+        }*/
+        return distinctCollection;
     }
 
     @Override

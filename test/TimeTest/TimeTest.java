@@ -43,7 +43,7 @@ public class TimeTest {
         Collections.addAll(testList, 12, 4, 8, 2, 21, 36, 10, 1, 4);
     }
 
-
+/*
    @Test
    public void testStream()
    {
@@ -61,6 +61,6 @@ public class TimeTest {
         {
             NOStreamTest(testList);
         }
-    }
+    }*/
 
 }
