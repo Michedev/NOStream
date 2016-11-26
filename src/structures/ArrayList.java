@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.function.*;
 
+import operations.Linker;
+import operations.OperationImpl;
 import structures.builder.StructureBuilder;
 
 /**
@@ -14,6 +16,23 @@ import structures.builder.StructureBuilder;
 public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
 	
 	private StructureBuilder structBuilder = new StructureBuilder();
+	private OperationImpl<T> operationLists = new OperationImpl<>(makeLinker());
+
+	private Linker<T> makeLinker() {
+		return new Linker<T>(){
+
+			@Override
+			public Collection<T> getInput() {
+				return ArrayList.this;
+			}
+
+			@Override
+			public <S> Collection<S> getOutput() {
+				return structBuilder.buildArrayList();
+			}
+			
+		};
+	}
     
 	@Override
     public ArrayList<T> distinct() {
@@ -38,11 +57,6 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     @Override
     public ArrayList<T> intersection(java.util.Collection<T> collection) {
         return ((ArrayList<T>) List.super.intersection(collection));
-    }
-
-    @Override
-    public <S> ArrayList<S> makeCollection() {
-        return structBuilder.buildArrayList();
     }
 
     @Override
@@ -107,8 +121,8 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
 	@Override
-	public void setDestinationList(ArrayList<?> dest) {
-		structBuilder.setNextOutputArrayList(dest);
-		
+	public OperationImpl<T> getOperationsList() {
+		return operationLists ;
 	}
+
 }

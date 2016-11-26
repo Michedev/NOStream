@@ -9,10 +9,37 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import operations.Linker;
+import operations.OperationImpl;
+import structures.builder.StructureBuilder;
+
 /**
  * Created by mikedev on 08/08/16.
  */
 public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
+	
+	private StructureBuilder structBuilder = new StructureBuilder();
+	private OperationImpl<T> operationLists = new OperationImpl<>(makeLinker());
+
+
+	private Linker<T> makeLinker() {
+		return new Linker<T>(){
+
+			@Override
+			public LinkedList<T> getInput() {
+				return LinkedList.this;
+			}
+
+			@Override
+			public <S> LinkedList<S> getOutput() {
+				return structBuilder.buildLinkedList();
+			}
+			
+		};
+	}
+    
+    
+	
     @Override
     public LinkedList<T> distinct() {
         return ((LinkedList<T>) List.super.distinct());
@@ -38,10 +65,6 @@ public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
         return ((LinkedList<T>) List.super.intersection(collection));
     }
 
-    @Override
-    public <S> LinkedList<S> makeCollection() {
-        return new LinkedList<S>();
-    }
 
     @Override
     public <R> LinkedList<R> map(Function<T, R> mapper) {
@@ -102,4 +125,10 @@ public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
         }
         return print;
     }
+
+
+	@Override
+	public OperationImpl<T> getOperationsList() {
+		return operationLists;
+	}
 }

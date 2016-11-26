@@ -1,6 +1,7 @@
 package structures;
 
 import functions.ConsumerIndexed;
+import operations.Linker;
 import operations.Operation;
 import operations.OperationImpl;
 import utils.Pair;
@@ -15,7 +16,7 @@ import java.util.function.*;
 public interface Collection<T> extends java.util.Collection<T>, Operation<T> {
 
     OperationImpl<T> getOperationsList();
-
+    
     @Override
     default boolean all(Predicate<T> predicate) {
         return getOperationsList().all(predicate);

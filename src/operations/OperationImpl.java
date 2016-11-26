@@ -30,6 +30,10 @@ public class OperationImpl<T> implements Operation<T> {
 		
 	}
 	
+	public void setLinker(Linker<T> linker){
+		this.linker = linker;
+	}
+	
 	public Collection<T> getInputCollection(){
 		return linker.getInput();
 	}

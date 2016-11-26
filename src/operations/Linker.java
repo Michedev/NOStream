@@ -4,5 +4,5 @@ import structures.Collection;
 
 public interface Linker<T> {
 	Collection<T> getInput();
-	<S> Collection<S> getOutput();
+    <R> Collection<R> getOutput();
 }
