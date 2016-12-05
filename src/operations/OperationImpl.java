@@ -22,15 +22,15 @@ import utils.Sorting;
 
 public class OperationImpl<T> implements Operation<T> {
 	
-	private Linker<T> linker;
+	private IOCollection<T> linker;
 
 
-	public OperationImpl(Linker<T> linker){
+	public OperationImpl(IOCollection<T> linker){
 		this.linker = linker;
 		
 	}
 	
-	public void setLinker(Linker<T> linker){
+	public void setIOCollection(IOCollection<T> linker){
 		this.linker = linker;
 	}
 	
@@ -209,8 +209,8 @@ public class OperationImpl<T> implements Operation<T> {
     }
 
     @Override
-    public <E> Map<E, Collection<T>> groupBy(Function<T, E> gatherer) {
-        Map<E, Collection<T>> hashMap = new HashMap<E, Collection<T>>();
+    public <E> Map<E, List<T>> groupBy(Function<T, E> gatherer) {
+        Map<E, List<T>> hashMap = new HashMap<E, List<T>>();
         for (T e : getInputCollection()) {
             E key = gatherer.apply(e);
             hashMap.putIfAbsent(key, new ArrayList<T>());
@@ -414,7 +414,8 @@ public class OperationImpl<T> implements Operation<T> {
 
     @Override
     public Collection<T> takeLast(int n) {
-        return reverse().take(n);
+        Collection<T> reversed = reverse();
+        return reversed.take(n);
     }
 
     @Override
@@ -436,7 +437,7 @@ public class OperationImpl<T> implements Operation<T> {
 
 
     @Override
-    public <X> Collection<Pair<T, X>> zipWith(Collection<X> other) {
+    public <X> Collection<Pair<T, X>> zipWith(java.util.Collection<X> other) {
         if (other.size() < getInputCollection().size()) {
             throw new InputMismatchException("Size of input collection must be more or equal " +
                     "of getInputCollection() collection");

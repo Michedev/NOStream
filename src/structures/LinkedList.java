@@ -9,7 +9,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import operations.Linker;
+import operations.IOCollection;
 import operations.OperationImpl;
 import structures.builder.StructureBuilder;
 
@@ -22,8 +22,8 @@ public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
 	private OperationImpl<T> operationLists = new OperationImpl<>(makeLinker());
 
 
-	private Linker<T> makeLinker() {
-		return new Linker<T>(){
+	private IOCollection<T> makeLinker() {
+		return new IOCollection<T>(){
 
 			@Override
 			public LinkedList<T> getInput() {

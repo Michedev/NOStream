@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * Created by mikedev on 13/07/16.
  */
 public interface List<T> extends java.util.List<T>, Collection<T> {
-
+/*
 
     @Override
     default List<T> distinct() {
@@ -87,5 +87,5 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
     @Override
     default <X> List<Pair<T, X>> zipWith(Collection<X> other) {
         return ((List<Pair<T, X>>) Collection.super.zipWith(other));
-    }
+    }*/
 }

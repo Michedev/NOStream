@@ -2,6 +2,7 @@ package operations;
 
 import functions.ConsumerIndexed;
 import structures.Collection;
+import structures.List;
 import utils.Pair;
 
 import java.util.Comparator;
@@ -39,21 +40,21 @@ public interface Operation<T> {
      * Remove the elements that are the same by the method equals()
      * @return a new list with all different elements
      */
-    java.util.Collection distinct();
+    Collection<T> distinct();
 
     /**
      * Remove the elements that are true in the predicate
      * @param predicate Criteria that decide if an element of the list is true or false
      * @return a new list except the elements true in the predicate
      */
-    java.util.Collection filter(Predicate<T> predicate);
+    Collection<T> filter(Predicate<T> predicate);
 
     /**
      * Same of filter but with the index of the element in input
      * @param predicate a normal predicate with the index next to the element
      * @return a new list except the elements true in the predicate
      */
-    java.util.Collection filterIndexed(BiPredicate<T, Integer> predicate);
+    Collection<T> filterIndexed(BiPredicate<T, Integer> predicate);
 
     /**
      *
@@ -103,14 +104,14 @@ public interface Operation<T> {
      */
     void forEachReverse(Consumer<? super T> mod);
 
-    <E> Map<E, Collection<T>> groupBy(Function<T, E> thisFuct);
+    <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct);
 
     /**
      *
      * @param collection another collection
      * @return a new collection with the element equals between them
      */
-    java.util.Collection<T> intersection(java.util.Collection<T> collection);
+    Collection<T> intersection(java.util.Collection<T> collection);
 
     /**
      *
@@ -152,7 +153,7 @@ public interface Operation<T> {
      * @param <R> the type of return value of mapper
      * @return a new collection that contains elements of type R
      */
-    <R> java.util.Collection map(Function<T, R> mapper);
+    <R> Collection<R> map(Function<T, R> mapper);
 
     /**
      * Same of map but with the index next to the input element
@@ -160,7 +161,7 @@ public interface Operation<T> {
      * @param <R> type returned from mapper
      * @return a new collection of type R
      */
-    <R> java.util.Collection mapIndexed(BiFunction<T, Integer, R> mapper);
+    <R> Collection<R> mapIndexed(BiFunction<T, Integer, R> mapper);
 
     /**
      *
@@ -184,7 +185,7 @@ public interface Operation<T> {
      *                   the second, 0 if equals, 1 if is greater
      * @return a new list ordered in crescent mode
      */
-    java.util.Collection orderBy(Comparator<T> comparator);
+    Collection<T> orderBy(Comparator<T> comparator);
 
     /**
      *
@@ -193,7 +194,7 @@ public interface Operation<T> {
      * @return a new list ordered in decreasing mode
      */
 
-    java.util.Collection orderDecreasingBy(Comparator<T> comparator);
+    Collection<T> orderDecreasingBy(Comparator<T> comparator);
 
     /**
      * Apply the BinaryOperator to all elements from left to right. At the first iteration the return value
@@ -218,34 +219,34 @@ public interface Operation<T> {
      *
      * @return a new collection that is reverse [example : first element now = last element before reverse]
      */
-    java.util.Collection reverse();
+    Collection<T> reverse();
 
     /**
      *
      * @param n the number of elements to be take from the list
      * @return a new collection with only the first n elements
      */
-    java.util.Collection take(int n);
+    Collection<T> take(int n);
 
     /**
      *
      * @param n the number of elements to be take from the list
      * @return a new collection with only the last n elements
      */
-    java.util.Collection takeLast(int n);
+    Collection<T> takeLast(int n);
 
     /**
      *
      * @param collection another collection
      * @return a new collection with different elements from the collections
      */
-    java.util.Collection<T> union(java.util.Collection<T> collection);
+    Collection<T> union(java.util.Collection<T> collection);
 
     /**
      *
      * @return a new collection of Pair{Element, Index of element}
      */
-    java.util.Collection<Pair<T, Integer>> zipIndexed();
+    Collection<Pair<T, Integer>> zipIndexed();
 
     /**
      * Zip the current list with another making a collection of pair of the two list
@@ -256,13 +257,13 @@ public interface Operation<T> {
      * @param <X>   Type of elements of input list
      * @return A collection containing all two the elements
      */
-    <X> java.util.Collection<Pair<T,X>> zipWith(Collection<X> other);
+    <X> Collection<Pair<T,X>> zipWith(java.util.Collection<X> other);
 
     /**
      * this is equivalent to {@code filter(x -> x!= null)}
      * @return a new collection with not null elements
      */
-    default java.util.Collection<T> filterNotNull(){
+    default Collection<T> filterNotNull(){
         return filter(x -> x!= null);
     }
 
