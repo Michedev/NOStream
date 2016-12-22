@@ -1,5 +1,6 @@
 package structures.lazy;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Vector;
@@ -10,266 +11,272 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import factory.IOCollectionFactory;
+import functions.ConsumerIndexed;
 import functions.Function2;
 import operations.IOCollection;
 import operations.OperationImpl;
 import structures.ArrayList;
 import structures.Collection;
+import structures.List;
 import utils.Pair;
 
 public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList<T> {
 
-	private LazyExecuter data = new LazyExecuter();
-	private java.util.ArrayList<Runnable> actions = new java.util.ArrayList<>();
-	private boolean mapInvoked = false;
+	private LazyExecuter<T> lazyExecuter = new LazyExecuter<>();
+	private LazyArrayList<?> inner;
+	private LazyActionManager<T> lazyActionManager = new LazyActionManager<>();
 
 	private <U> LazyArrayList(LazyArrayList<U> lazyArrayList) {
-		this.data.inner = lazyArrayList;
+		this.inner = lazyArrayList;
 	}
 	
 	public LazyArrayList() {
 	}
 	
 	@Override
-	public <R> ArrayList<R> executeTasks(){
-		return data.executeTasks(actions);
-	}
-	public OperationImpl<T> getOperationsList() {
-		return data.operationImpl ;
-	}
-
-	@Override
-	public LazyArrayList<T> filter(Predicate<T> predicate) {
-		data.actions.add(() -> getOperationsList().filter(predicate));
-		return this;
-	}
-
-	@Override
-	public <R> LazyArrayList<R> map(Function<T, R> mapper) 
-	{
-		LazyArrayList<R> mapOutput = new LazyArrayList<R>(this);
-		wrapLastAction(() -> getOperationsList().map(mapper));
-		mapInvoked = true;
-		return mapOutput;
+	public <R> ArrayList<R> executeActions(){
+		ArrayList<T> inputList = null;
+		if(inner != null){
+			inputList = inner.executeActions();
+		}
+		else {
+			inputList = lazyActionManager.getInput();
+			for(T value : this){
+				inputList.add(value);
+			}
+		}
+		lazyActionManager.setInput(inputList);
+		return (ArrayList<R>) lazyExecuter.executeTasks(lazyActionManager);
 	}
 
-	private <R> void wrapLastAction(Runnable endingRunnable) {
-		data.actions.add(() -> 
-		{
-			getOperationsList()
-				.setIOCollection(new IOCollection<T>()
-				{
-					private ArrayList<R> output = new ArrayList<R>();
-	
-					@Override
-					public ArrayList<T> getInput() {
-						return data.input;
-					}
-	
-					@Override
-					public <S> ArrayList<S> getOutput() {
-						return (ArrayList<S>) output;
-					}
-					
-				});
-			endingRunnable.run();
-	
-		});
+	private OperationImpl<T> getOperationList(){
+		return lazyActionManager.getOperationList();
 	}
-	
 	
 
 	@Override
 	public boolean all(Predicate<T> predicate) {
-		ArrayList<T> computedTask = executeTasks();
-		return computedTask.all(predicate);
+		ArrayList<T> strictList = executeActions();
+		return strictList.all(predicate);
 	}
 
 	@Override
 	public boolean any(Predicate<T> predicate) {
-		ArrayList<T> computedTask = executeTasks();
-		return computedTask.any(predicate);
+		ArrayList<T> strictList = executeActions();
+		return strictList.any(predicate);
 	}
 
 	@Override
 	public int count(Predicate<T> fCounter) {
-		ArrayList<T> computedTask = executeTasks();
-		return computedTask.count(fCounter);
+		ArrayList<T> strictList = executeActions();
+		return strictList.count(fCounter);
 	}
 
 	@Override
-	public Collection<T> distinct() {
-		// TODO Auto-generated method stub
-		return LazyList.super.distinct();
+	public LazyArrayList<T> distinct() {
+		lazyActionManager.addAction(() -> getOperationList().distinct());
+		return this;
+	}
+	
+	@Override
+	public LazyArrayList<T> filter(Predicate<T> predicate) {
+		lazyActionManager.addAction(() -> getOperationList().filter(predicate));
+		return this;
 	}
 
 	@Override
-	public Collection<T> filterIndexed(BiPredicate<T, Integer> predicate) {
-		// TODO Auto-generated method stub
-		return LazyList.super.filterIndexed(predicate);
+	public LazyArrayList<T> filterIndexed(BiPredicate<T, Integer> predicate) {
+		lazyActionManager.addAction(() -> getOperationList().filterIndexed(predicate));
+		return this;
 	}
 
 	@Override
-	public Collection<T> filterNotNull() {
-		// TODO Auto-generated method stub
-		return LazyList.super.filterNotNull();
+	public LazyArrayList<T> filterNotNull() {
+		lazyActionManager.addAction(() -> getOperationList().filterNotNull());
+		return this;
 	}
 
 	@Override
 	public T first() {
-		// TODO Auto-generated method stub
-		return LazyList.super.first();
+		ArrayList<T> strictList = executeActions();
+		return strictList.first();
 	}
 
 	@Override
 	public T first(T defaultValue) {
-		// TODO Auto-generated method stub
-		return LazyList.super.first(defaultValue);
+		ArrayList<T> strictList = executeActions();
+		return strictList.first(defaultValue);
 	}
 
 	@Override
 	public T first(Predicate<T> predicate, T defaultValue) {
-		// TODO Auto-generated method stub
-		return LazyList.super.first(predicate, defaultValue);
+		ArrayList<T> strictList = executeActions();
+		return strictList.first(predicate, defaultValue);
 	}
 
 	@Override
 	public T firstOrNull() {
-		// TODO Auto-generated method stub
-		return LazyList.super.firstOrNull();
+		ArrayList<T> strictList = executeActions();
+		return strictList.firstOrNull();
 	}
 
 	@Override
 	public T firstOrNull(Predicate<T> predicate) {
-		// TODO Auto-generated method stub
-		return LazyList.super.firstOrNull(predicate);
+		ArrayList<T> strictList = executeActions();
+		return strictList.firstOrNull(predicate);
+	}
+	
+
+	@Override
+	public void forEach(Consumer<? super T> consumer) {
+		lazyActionManager.addAction(() -> getOperationList().forEach(consumer));
+	}
+	
+	@Override
+	public void forEachIndexed(ConsumerIndexed<? super T> consumerI) {
+		lazyActionManager.addAction(() -> getOperationList().forEachIndexed(consumerI));
+		
 	}
 
 	@Override
-	public <E> Map<E, Collection<T>> groupBy(Function<T, E> thisFuct) {
-		// TODO Auto-generated method stub
-		return LazyList.super.groupBy(thisFuct);
+	public void forEachReverse(Consumer<? super T> consumer) {
+		lazyActionManager.addAction(() -> getOperationList().forEachReverse(consumer));
+		
+	}
+
+
+	@Override
+	public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
+		ArrayList<T> strictList = executeActions();
+		return strictList.groupBy(thisFuct);
 	}
 
 	@Override
-	public Collection<T> intersection(java.util.Collection<T> collection) {
-		// TODO Auto-generated method stub
-		return LazyList.super.intersection(collection);
+	public LazyArrayList<T> intersection(java.util.Collection<T> collection) {
+		lazyActionManager.addAction(() -> getOperationList().intersection(collection));
+		return this;
 	}
 
 	@Override
 	public T last(T defaultValue) {
-		// TODO Auto-generated method stub
-		return LazyList.super.last(defaultValue);
+		ArrayList<T> strictList = executeActions();
+		return strictList.last(defaultValue);
 	}
 
 	@Override
 	public T last() {
-		// TODO Auto-generated method stub
-		return LazyList.super.last();
+		ArrayList<T> strictList = executeActions();
+		return strictList.last();
 	}
 
 	@Override
 	public T last(Predicate<T> predicate, T defaultValue) {
-		// TODO Auto-generated method stub
-		return LazyList.super.last(predicate, defaultValue);
+		ArrayList<T> strictList = executeActions();
+		return strictList.last(predicate, defaultValue);
 	}
 
 	@Override
 	public T lastOrNull() {
-		// TODO Auto-generated method stub
-		return LazyList.super.lastOrNull();
+		ArrayList<T> strictList = executeActions();
+		return strictList.lastOrNull();
 	}
 
 	@Override
 	public T lastOrNull(Predicate<T> predicate) {
-		// TODO Auto-generated method stub
-		return LazyList.super.lastOrNull(predicate);
+		ArrayList<T> strictList = executeActions();
+		return strictList.lastOrNull(predicate);
 	}
+	
+	@Override
+	public <R> LazyArrayList<R> map(Function<T, R> mapper) {
+		LazyArrayList<R> mapOutput = new LazyArrayList<R>(this);
+		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().map(mapper));
+		return mapOutput;
+	}	
 
 	@Override
-	public <R> Collection<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
-		// TODO Auto-generated method stub
-		return LazyList.super.mapIndexed(mapper);
+	public <R> LazyArrayList<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
+		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().mapIndexed(mapper));
+		return new LazyArrayList<>(this);
 	}
 
 	@Override
 	public T maxBy(Comparator<T> comparator) {
-		// TODO Auto-generated method stub
-		return LazyList.super.maxBy(comparator);
+		ArrayList<T> strictList = executeActions();
+		return strictList.maxBy(comparator);
 	}
 
 	@Override
 	public T minBy(Comparator<T> comparator) {
-		// TODO Auto-generated method stub
-		return LazyList.super.minBy(comparator);
+		ArrayList<T> strictList = executeActions();
+		return strictList.minBy(comparator);
 	}
 
 	@Override
-	public Collection<T> orderBy(Comparator<T> comparator) {
-		// TODO Auto-generated method stub
-		return LazyList.super.orderBy(comparator);
+	public LazyArrayList<T> orderBy(Comparator<T> comparator) {
+		lazyActionManager.addAction(() -> getOperationList().orderBy(comparator));
+		return this;
 	}
 
 	@Override
-	public Collection<T> orderDecreasingBy(Comparator<T> comparator) {
-		// TODO Auto-generated method stub
-		return LazyList.super.orderDecreasingBy(comparator);
+	public LazyArrayList<T> orderDecreasingBy(Comparator<T> comparator) {
+		lazyActionManager.addAction(() -> getOperationList().orderDecreasingBy(comparator));
+		return this;
+	}
+	
+
+	@Override
+	public T reduce(BinaryOperator<T> accumulator) {
+		ArrayList<T> strictList = executeActions();
+		return strictList.reduce(accumulator);
 	}
 
 	@Override
 	public T reduceReverse(BinaryOperator<T> accumulator) {
-		// TODO Auto-generated method stub
-		return LazyList.super.reduceReverse(accumulator);
+		ArrayList<T> strictList = executeActions();
+		return strictList.reduceReverse(accumulator);
 	}
 
 	@Override
-	public Collection<T> reverse() {
-		// TODO Auto-generated method stub
-		return LazyList.super.reverse();
+	public LazyArrayList<T> reverse() {
+		lazyActionManager.addAction(() -> getOperationList().reverse());
+		return this;
 	}
 
 	@Override
-	public Collection<T> take(int n) {
-		// TODO Auto-generated method stub
-		return LazyList.super.take(n);
+	public LazyArrayList<T> take(int n) {
+		lazyActionManager.addAction(() -> getOperationList().take(n));
+		return this;
 	}
 
 	@Override
-	public Collection<T> takeLast(int n) {
-		// TODO Auto-generated method stub
-		return LazyList.super.takeLast(n);
+	public LazyArrayList<T> takeLast(int n) {
+		lazyActionManager.addAction(() -> getOperationList().takeLast(n));
+		return this;
 	}
 
 	@Override
-	public Collection<T> union(java.util.Collection<T> collection) {
-		// TODO Auto-generated method stub
-		return LazyList.super.union(collection);
+	public LazyArrayList<T> union(java.util.Collection<T> collection) {
+		lazyActionManager.addAction(() -> getOperationList().union(collection));
+		return this;
 	}
 
 	@Override
-	public Collection<Pair<T, Integer>> zipIndexed() {
-		// TODO Auto-generated method stub
-		return LazyList.super.zipIndexed();
+	public LazyArrayList<Pair<T, Integer>> zipIndexed() {
+		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().zipIndexed());
+		return new LazyArrayList<>(this);
 	}
 
 	@Override
-	public <X> Collection<Pair<T, X>> zipWith(Collection<X> other) {
-		// TODO Auto-generated method stub
-		return LazyList.super.zipWith(other);
+	public <X> LazyArrayList<Pair<T, X>> zipWith(java.util.Collection<X> other) {
+		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().zipWith(other));
+		return new LazyArrayList<>(this);
 	}
 
-	@Override
-	public void forEach(Consumer<? super T> action) {
-		// TODO Auto-generated method stub
-		super.forEach(action);
-	}
 
-	@Override
-	public T reduce(BinaryOperator<T> accumulator) {
-		ArrayList<T> result = executeTasks();
-		return result.reduce(accumulator);
-	}
+
+	
 	
 	
 

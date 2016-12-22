@@ -27,6 +27,9 @@ public class OperationImpl<T> implements Operation<T> {
 
 	public OperationImpl(IOCollection<T> linker){
 		this.linker = linker;
+	}
+	
+	public OperationImpl(){
 		
 	}
 	

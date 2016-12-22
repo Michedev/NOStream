@@ -14,7 +14,7 @@ import structures.Collection;
 public interface LazyCollection<T> extends Collection<T> {
 	
 	
-	<R> Collection<R> executeTasks();
+	<R> Collection<R> executeActions();
 /*	
 	@Override
 	default LazyCollection<T> filter(Predicate<T> predicate) {

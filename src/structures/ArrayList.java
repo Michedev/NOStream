@@ -18,6 +18,14 @@ import operations.OperationImpl;
 public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
 	
 	private Operation<T> operationLists = new OperationImpl<>(makeLinker());
+	
+	public ArrayList(int size){
+		super(size);
+	}
+	
+	public ArrayList(){
+		super();
+	}
 
 	private IOCollection<T> makeLinker() {
 		return new IOCollection<T>(){
@@ -109,7 +117,7 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
 
     @Override
     public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
-    	return (Map<E, List<T>>) getOperationsList().groupBy(thisFuct);
+    	return getOperationsList().groupBy(thisFuct);
 
     }
 

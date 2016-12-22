@@ -23,7 +23,7 @@ public class TestLazyArrayList {
 	
 	@Test
 	public void testBaseFilter() {
-		ArrayList<Integer> result = lazyArrayList.filter(x -> x > 3).executeTasks();
+		ArrayList<Integer> result = lazyArrayList.filter(x -> x > 3).executeActions();
 		assertEquals(4, result.size());
 	}
 
@@ -33,19 +33,19 @@ public class TestLazyArrayList {
 	public void testConcatenateFilter(){
 		LazyArrayList<Integer> result = lazyArrayList.filter(x -> x > 1).filter(x -> x > 5);
 		assertEquals(6, result.size());
-		assertEquals(3, result.executeTasks().size());
+		assertEquals(3, result.executeActions().size());
 	}
 	
 	@Test
 	public void testBaseMap(){
-		ArrayList<Double> result = lazyArrayList.map(x -> x * 3.5).executeTasks();
+		ArrayList<Double> result = lazyArrayList.map(x -> x * 3.5).executeActions();
 		assertEquals(3.5, result.get(0), 0.01);
 	}
 	
 	@Test
 	public void testMapFilter(){
 		LazyArrayList<Double> mapResult = lazyArrayList.map(x -> x / 2.0);
-		assertEquals(2, mapResult.filter(x -> x < 1).executeTasks().size());
+		assertEquals(2, mapResult.filter(x -> x < 1).executeActions().size());
 	}
 	
 	@Test
