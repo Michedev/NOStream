@@ -22,6 +22,13 @@ public class TestLazyArrayList {
 	}
 	
 	@Test
+	public void testNoActions(){
+		ArrayList<Integer> result = lazyArrayList.executeActions();
+		assertEquals(6, result.size());
+		assertArrayEquals(lazyArrayList.toArray(), result.toArray());
+	}
+	
+	@Test
 	public void testBaseFilter() {
 		ArrayList<Integer> result = lazyArrayList.filter(x -> x > 3).executeActions();
 		assertEquals(4, result.size());
@@ -33,6 +40,15 @@ public class TestLazyArrayList {
 	public void testConcatenateFilter(){
 		LazyArrayList<Integer> result = lazyArrayList.filter(x -> x > 1).filter(x -> x > 5);
 		assertEquals(6, result.size());
+		assertEquals(3, result.executeActions().size());
+	}
+	
+	@Test
+	public void testIndipendentRunsWithMultipleFilter(){
+		LazyArrayList<Integer> result = lazyArrayList.filter(x -> x > 1).filter(x -> x > 5);
+		result.executeActions();
+		result.executeActions();
+		result.executeActions();
 		assertEquals(3, result.executeActions().size());
 	}
 	

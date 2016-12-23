@@ -26,6 +26,7 @@ public class LazyActionManager<T> {
 	public void addAction(Runnable action) {
 		assertNoOneTransformingTypeAction();
 		actions.add(() -> {
+			output.clear();
 			operationImpl.setIOCollection(ioCollectionFactory.buildWithDefinedCollectionOutput(input, output));
 			action.run();
 		});
@@ -83,6 +84,14 @@ public class LazyActionManager<T> {
 
 	public ArrayList<T> getInput() {
 		return input;
+	}
+
+	public ArrayList<T> getOutput() {
+		return output;
+	}
+
+	public int numActions() {
+		return actions.size();
 	}
 	
 }

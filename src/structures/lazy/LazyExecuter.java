@@ -13,11 +13,15 @@ public class LazyExecuter<T> {
 	
 
 	public <R> ArrayList<R> executeTasks(LazyActionManager manager){
+		if(manager.numActions() == 0){
+			return manager.getInput();
+		}
 		ArrayList<Runnable> actions = manager.getActions();
 		for(Runnable task : actions){
 			task.run();
 		}
-		return (ArrayList<R>) (manager.isInvokedTrasformingTypeAction()? manager.getOutputTrasformingType() : manager.getInput());
+		manager.getInput().clear();
+		return (ArrayList<R>) (manager.isInvokedTrasformingTypeAction()? manager.getOutputTrasformingType() : manager.getOutput());
 	}
 
 	

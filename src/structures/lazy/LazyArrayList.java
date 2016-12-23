@@ -36,6 +36,13 @@ public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList
 	
 	@Override
 	public <R> ArrayList<R> executeActions(){
+		if(lazyActionManager.numActions() == 0 && inner == null){
+			ArrayList<T> thisAsStrict = new ArrayList<T>();
+			for(T value : this){
+				thisAsStrict.add(value);
+			}
+			return (ArrayList<R>) thisAsStrict;
+		}
 		ArrayList<T> inputList = null;
 		if(inner != null){
 			inputList = inner.executeActions();
