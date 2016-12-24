@@ -212,8 +212,8 @@ public class OperationImpl<T> implements Operation<T> {
     }
 
     @Override
-    public <E> Map<E, List<T>> groupBy(Function<T, E> gatherer) {
-        Map<E, List<T>> hashMap = new HashMap<E, List<T>>();
+    public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> gatherer) {
+        Map<E, ArrayList<T>> hashMap = new HashMap<>();
         for (T e : getInputCollection()) {
             E key = gatherer.apply(e);
             hashMap.putIfAbsent(key, new ArrayList<T>());

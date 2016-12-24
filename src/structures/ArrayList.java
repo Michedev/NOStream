@@ -14,6 +14,14 @@ import operations.OperationImpl;
 
 /**
  * Created by mikedev on 31/07/16.
+ * 
+ * There is some code duplication beetwen this class and LinkedList.
+ * This choise is driver by design, because i want to respect at maximum the open closed principle.
+ * I make private the instance of OperationImpl and IOCollection for avoid to the programmer that
+ * use this library unuseful methods involving the implementation of the operations.
+ * 
+ * Another opportunity  is an abstract class: i can't do this because i want to keep the compatibility
+ * with the respective java.util counterpart via inheritance and so the super class must be that.
  */
 public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
 	
@@ -116,7 +124,7 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
+    public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) {
     	return getOperationsList().groupBy(thisFuct);
 
     }

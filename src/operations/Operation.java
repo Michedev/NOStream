@@ -1,6 +1,7 @@
 package operations;
 
 import functions.ConsumerIndexed;
+import structures.ArrayList;
 import structures.Collection;
 import structures.List;
 import utils.Pair;
@@ -104,7 +105,7 @@ public interface Operation<T> {
      */
     void forEachReverse(Consumer<? super T> mod);
 
-    <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct);
+    <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct);
 
     /**
      *
