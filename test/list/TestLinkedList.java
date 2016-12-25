@@ -1,4 +1,4 @@
-package test;
+package list;
 import org.junit.Before;
 import org.junit.Test;
 import structures.LinkedList;

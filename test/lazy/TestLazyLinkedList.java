@@ -1,4 +1,4 @@
-package test.lazy;
+package lazy;
 
 import structures.lazy.LazyLinkedList;
 import structures.lazy.LazyList;

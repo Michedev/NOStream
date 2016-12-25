@@ -1,4 +1,4 @@
-package test.lazy;
+package lazy;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

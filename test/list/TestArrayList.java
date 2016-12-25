@@ -1,4 +1,4 @@
-package test;
+package list;
 import static org.junit.Assert.*;
 
 import structures.ArrayList;
