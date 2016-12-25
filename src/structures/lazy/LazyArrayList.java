@@ -155,7 +155,7 @@ public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList
 
 
 	@Override
-	public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) {
+	public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
 		ArrayList<T> strictList = executeActions();
 		return strictList.groupBy(thisFuct);
 	}

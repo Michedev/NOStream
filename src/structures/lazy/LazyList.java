@@ -27,9 +27,6 @@ public interface LazyList<T> extends LazyCollection<T>, List<T> {
 	LazyList<T> filterIndexed(BiPredicate<T, Integer> predicate);
 
 	@Override
-	<E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct);
-
-	@Override
 	LazyList<T> intersection(java.util.Collection<T> LazyList);
 
 	@Override

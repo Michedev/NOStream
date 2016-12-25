@@ -23,9 +23,6 @@ public abstract class TestList {
 	private List<Integer> l1;
 	private List<Integer> l2;
 
-	public TestList() {
-		super();
-	}
 
 	@Before
 	public void inizialize() {
@@ -118,14 +115,14 @@ public abstract class TestList {
 
 	@Test
 	public void testGroupBy1() {
-	    Map<Integer, ArrayList<Integer>> map = l1.groupBy(x -> (x % 5));
+	    Map<Integer, List<Integer>> map = l1.groupBy(x -> (x % 5));
 	    assertEquals(map.get(1).size(), 2);
 	    assertTrue(map.get(1).contains(41));
 	}
 
 	@Test
 	public void testGroupBy2() {
-	    Map<Point, ArrayList<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
+	    Map<Point, List<Integer>> map = l1.groupBy(x -> new Point(x%3,x%3));
 	    assertEquals(map.get(new Point(0,0)).size(), 2);
 	    assertTrue(map.get(new Point(0,0)).contains(3) && map.get(new Point(0,0)).contains(39));
 	}

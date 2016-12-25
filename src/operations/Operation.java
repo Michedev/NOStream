@@ -105,7 +105,7 @@ public interface Operation<T> {
      */
     void forEachReverse(Consumer<? super T> mod);
 
-    <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct);
+    <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct);
 
     /**
      *

@@ -28,9 +28,6 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
 	List<T> filterIndexed(BiPredicate<T, Integer> predicate);
 
 	@Override
-	<E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct);
-
-	@Override
 	List<T> intersection(java.util.Collection<T> List);
 
 	@Override

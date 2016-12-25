@@ -112,7 +112,7 @@ public class LinkedList<T> extends java.util.LinkedList<T> implements List<T> {
     }
 
     @Override
-    public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) {
+    public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
     	return getOperationsList().groupBy(thisFuct);
 
     }
