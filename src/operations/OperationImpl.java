@@ -67,26 +67,6 @@ public class OperationImpl<T> implements Operation<T> {
         return false;
     }
 
-    /*@Override
-    public void forEach(Modifier<T> alterator)
-    {
-        if(!isParallel())
-        {
-            iterator().forEachRemaining(alterator::alter);
-        }
-        else
-        {
-            int procs = Runtime.getRuntime().availableProcessors();
-            Spliterator<T> sIt = getInputCollection().spliterator();
-            Thread[] threads = new Thread[procs];
-            for (Thread thread : threads)
-            {
-                thread = new Thread(() -> sIt.trySplit().forEachRemaining(alterator::alter));
-            }
-        }
-
-    }*/
-
     @Override
     public int count(Predicate<T> fCounter) {
         final int[] c = {0};
@@ -212,8 +192,8 @@ public class OperationImpl<T> implements Operation<T> {
     }
 
     @Override
-    public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> gatherer) {
-        Map<E, ArrayList<T>> hashMap = new HashMap<>();
+    public <E> Map<E, List<T>> groupBy(Function<T, E> gatherer) {
+        Map<E, List<T>> hashMap = new HashMap<>();
         for (T e : getInputCollection()) {
             E key = gatherer.apply(e);
             hashMap.putIfAbsent(key, new ArrayList<T>());

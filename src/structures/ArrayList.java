@@ -112,6 +112,10 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     	return getOperationsList().firstOrNull(predicate);
     }
 
+    @Override
+    public void forEach(Consumer<? super T> consumer){
+    	getOperationsList().forEach(consumer);
+    }
 
     @Override
     public void forEachIndexed(ConsumerIndexed<? super T> mI) {
@@ -124,7 +128,7 @@ public class ArrayList<T> extends java.util.ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) {
+    public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
     	return getOperationsList().groupBy(thisFuct);
 
     }

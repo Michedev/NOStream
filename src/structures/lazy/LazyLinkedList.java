@@ -151,7 +151,7 @@ public class LazyLinkedList<T> extends java.util.LinkedList<T> implements LazyLi
 
 
 	@Override
-	public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) {
+	public <E> Map<E, List<T>> groupBy(Function<T, E> thisFuct) {
 		LinkedList<T> strictList = executeActions();
 		return strictList.groupBy(thisFuct);
 	}
