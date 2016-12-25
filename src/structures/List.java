@@ -20,45 +20,50 @@ public interface List<T> extends java.util.List<T>, Collection<T> {
 
 	@Override
 	List<T> distinct();
+
 	@Override
 	List<T> filter(Predicate<T> predicate);
-	@Override
-	 List<T> filterIndexed(BiPredicate<T, Integer> predicate) ;
-	@Override
-	 <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) ;
-	@Override
-	 List<T> intersection(java.util.Collection<T> List) ;
-	@Override
-	 <R> List<R> map(Function<T, R> mapper) ;
-	@Override
-	 <R> List<R> mapIndexed(BiFunction<T, Integer, R> mapper) ;
-	@Override
-	 List<T> orderBy(Comparator<T> comparator) ;
-	@Override
-	 List<T> orderDecreasingBy(Comparator<T> comparator) ;
 
 	@Override
-	 List<T> reverse() ;
+	List<T> filterIndexed(BiPredicate<T, Integer> predicate);
 
 	@Override
-	 List<T> take(int n) ;
+	<E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct);
 
 	@Override
-	 List<T> takeLast(int n) ;
+	List<T> intersection(java.util.Collection<T> List);
 
 	@Override
-	 List<T> union(java.util.Collection<T> List) ;
-
-
-	@Override
-	 List<Pair<T, Integer>> zipIndexed() ;
-
+	<R> List<R> map(Function<T, R> mapper);
 
 	@Override
-	 <X> List<Pair<T, X>> zipWith(java.util.Collection<X> other) ;
+	<R> List<R> mapIndexed(BiFunction<T, Integer, R> mapper);
 
 	@Override
-	 List<T> filterNotNull() ;
+	List<T> orderBy(Comparator<T> comparator);
 
-	
+	@Override
+	List<T> orderDecreasingBy(Comparator<T> comparator);
+
+	@Override
+	List<T> reverse();
+
+	@Override
+	List<T> take(int n);
+
+	@Override
+	List<T> takeLast(int n);
+
+	@Override
+	List<T> union(java.util.Collection<T> List);
+
+	@Override
+	List<Pair<T, Integer>> zipIndexed();
+
+	@Override
+	<X> List<Pair<T, X>> zipWith(java.util.Collection<X> other);
+
+	@Override
+	List<T> filterNotNull();
+
 }

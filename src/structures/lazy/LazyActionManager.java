@@ -3,21 +3,25 @@ package structures.lazy;
 import java.util.Objects;
 
 import factory.IOCollectionFactory;
+import factory.ListFactory;
 import operations.OperationImpl;
 import structures.ArrayList;
+import structures.List;
 
 public class LazyActionManager<T> {
-	private ArrayList<T> input;
-	private ArrayList<T> output;
-	private ArrayList<?> outputTrasformedList;
+	private List<T> input;
+	private List<T> output;
+	private List<?> outputTrasformedList;
 	private boolean invokedTrasformingTypeAction = false;
-	private ArrayList<Runnable> actions = new ArrayList<>();
+	private List<Runnable> actions = new ArrayList<>();
 	private OperationImpl<T> operationImpl;
 	private IOCollectionFactory<T> ioCollectionFactory;
+	private ListFactory l;
 	
-	public LazyActionManager(){
-		input = new ArrayList<>();
-		output = new ArrayList<>();
+	public LazyActionManager(ListFactory l){
+		input = l.buildList();
+		output = l.buildList();
+		this.l = l;
 		ioCollectionFactory = new IOCollectionFactory<>();
 		operationImpl = new OperationImpl<>();
 
@@ -34,7 +38,7 @@ public class LazyActionManager<T> {
 	}
 
 	private void swapInputAndOutput() {
-		ArrayList<T> tmp = input;
+		List<T> tmp = input;
 		input = output;
 		output = tmp;
 	}
@@ -42,7 +46,7 @@ public class LazyActionManager<T> {
 	public <R> void addTrasformingTypeAction(Runnable endingRunnable) {
 		assertNoOneTransformingTypeAction();
 		invokedTrasformingTypeAction  = true;
-		outputTrasformedList = new ArrayList<R>();
+		outputTrasformedList = l.buildList();
 		actions.add(() -> 
 		{
 			operationImpl
@@ -58,7 +62,7 @@ public class LazyActionManager<T> {
 		}
 	}
 
-	public void setInput(ArrayList<T> inputList) {
+	public void setInput(List<T> inputList) {
 		this.input = inputList;
 		
 	}
@@ -67,7 +71,7 @@ public class LazyActionManager<T> {
 		return operationImpl;
 	}
 
-	public ArrayList<Runnable> getActions() {
+	public List<Runnable> getActions() {
 		return actions;
 	}
 
@@ -75,18 +79,18 @@ public class LazyActionManager<T> {
 		return invokedTrasformingTypeAction;
 	}
 
-	public <R> ArrayList<R> getOutputTrasformingType() {
+	public <R> List<R> getOutputTrasformingType() {
 		if(!isInvokedTrasformingTypeAction()){
 			throw new IllegalStateException("Actually are not invoked trasforming type method");
 		}
-		return (ArrayList<R>) outputTrasformedList;
+		return (List<R>) outputTrasformedList;
 	}
 
-	public ArrayList<T> getInput() {
+	public List<T> getInput() {
 		return input;
 	}
 
-	public ArrayList<T> getOutput() {
+	public List<T> getOutput() {
 		return output;
 	}
 

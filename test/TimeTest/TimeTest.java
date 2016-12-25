@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import structures.List;
-import test_classes.Point;
+import useful_class_for_test.Point;
 import utils.Pair;
 import utils.Sorting;
 

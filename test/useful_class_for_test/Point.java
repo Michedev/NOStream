@@ -1,4 +1,4 @@
-package test_classes;
+package useful_class_for_test;
 
 /**
  * Created by mikedev on 01/08/16.

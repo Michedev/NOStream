@@ -1,9 +1,7 @@
 package structures.lazy;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Vector;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.BinaryOperator;
@@ -11,51 +9,49 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import factory.ArrayListFactory;
-import factory.IOCollectionFactory;
+import factory.LinkedListFactory;
 import functions.ConsumerIndexed;
-import functions.Function2;
-import operations.IOCollection;
 import operations.OperationImpl;
 import structures.ArrayList;
-import structures.Collection;
+import structures.LinkedList;
+import structures.LinkedList;
 import structures.List;
 import utils.Pair;
 
-public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList<T> {
+public class LazyLinkedList<T> extends java.util.LinkedList<T> implements LazyList<T> {
 
 	private LazyExecuter<T> lazyExecuter = new LazyExecuter<>();
-	private LazyArrayList<?> inner;
-	private LazyActionManager<T> lazyActionManager = new LazyActionManager<>(new ArrayListFactory());
+	private LazyLinkedList<?> inner;
+	private LazyActionManager<T> lazyActionManager = new LazyActionManager<>(new LinkedListFactory());
 
-	private <U> LazyArrayList(LazyArrayList<U> lazyArrayList) {
-		this.inner = lazyArrayList;
+	private <U> LazyLinkedList(LazyLinkedList<U> LazyLinkedList) {
+		this.inner = LazyLinkedList;
 	}
 	
-	public LazyArrayList() {
+	public LazyLinkedList() {
 	}
 	
 	@Override
-	public <R> ArrayList<R> executeActions(){
+	public <R> LinkedList<R> executeActions(){
 		if(lazyActionManager.numActions() == 0 && inner == null){
-			ArrayList<T> thisAsStrict = new ArrayList<T>();
+			LinkedList<T> thisAsStrict = new LinkedList<T>();
 			for(T value : this){
 				thisAsStrict.add(value);
 			}
-			return (ArrayList<R>) thisAsStrict;
+			return (LinkedList<R>) thisAsStrict;
 		}
-		ArrayList<T> inputList = null;
+		LinkedList<T> inputList = null;
 		if(inner != null){
 			inputList = inner.executeActions();
 		}
 		else {
-			inputList = (ArrayList<T>) lazyActionManager.getInput();
+			inputList = (LinkedList<T>) lazyActionManager.getInput();
 			for(T value : this){
 				inputList.add(value);
 			}
 		}
 		lazyActionManager.setInput(inputList);
-		return (ArrayList<R>) lazyExecuter.executeTasks(lazyActionManager);
+		return (LinkedList<R>) lazyExecuter.executeTasks(lazyActionManager);
 	}
 
 	private OperationImpl<T> getOperationList(){
@@ -65,73 +61,73 @@ public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList
 
 	@Override
 	public boolean all(Predicate<T> predicate) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.all(predicate);
 	}
 
 	@Override
 	public boolean any(Predicate<T> predicate) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.any(predicate);
 	}
 
 	@Override
 	public int count(Predicate<T> fCounter) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.count(fCounter);
 	}
 
 	@Override
-	public LazyArrayList<T> distinct() {
+	public LazyLinkedList<T> distinct() {
 		lazyActionManager.addAction(() -> getOperationList().distinct());
 		return this;
 	}
 	
 	@Override
-	public LazyArrayList<T> filter(Predicate<T> predicate) {
+	public LazyLinkedList<T> filter(Predicate<T> predicate) {
 		lazyActionManager.addAction(() -> getOperationList().filter(predicate));
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<T> filterIndexed(BiPredicate<T, Integer> predicate) {
+	public LazyLinkedList<T> filterIndexed(BiPredicate<T, Integer> predicate) {
 		lazyActionManager.addAction(() -> getOperationList().filterIndexed(predicate));
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<T> filterNotNull() {
+	public LazyLinkedList<T> filterNotNull() {
 		lazyActionManager.addAction(() -> getOperationList().filterNotNull());
 		return this;
 	}
 
 	@Override
 	public T first() {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.first();
 	}
 
 	@Override
 	public T first(T defaultValue) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.first(defaultValue);
 	}
 
 	@Override
 	public T first(Predicate<T> predicate, T defaultValue) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.first(predicate, defaultValue);
 	}
 
 	@Override
 	public T firstOrNull() {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.firstOrNull();
 	}
 
 	@Override
 	public T firstOrNull(Predicate<T> predicate) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.firstOrNull(predicate);
 	}
 	
@@ -156,79 +152,79 @@ public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList
 
 	@Override
 	public <E> Map<E, ArrayList<T>> groupBy(Function<T, E> thisFuct) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.groupBy(thisFuct);
 	}
 
 	@Override
-	public LazyArrayList<T> intersection(java.util.Collection<T> collection) {
+	public LazyLinkedList<T> intersection(java.util.Collection<T> collection) {
 		lazyActionManager.addAction(() -> getOperationList().intersection(collection));
 		return this;
 	}
 
 	@Override
 	public T last(T defaultValue) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.last(defaultValue);
 	}
 
 	@Override
 	public T last() {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.last();
 	}
 
 	@Override
 	public T last(Predicate<T> predicate, T defaultValue) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.last(predicate, defaultValue);
 	}
 
 	@Override
 	public T lastOrNull() {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.lastOrNull();
 	}
 
 	@Override
 	public T lastOrNull(Predicate<T> predicate) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.lastOrNull(predicate);
 	}
 	
 	@Override
-	public <R> LazyArrayList<R> map(Function<T, R> mapper) {
-		LazyArrayList<R> mapOutput = new LazyArrayList<R>(this);
+	public <R> LazyLinkedList<R> map(Function<T, R> mapper) {
+		LazyLinkedList<R> mapOutput = new LazyLinkedList<R>(this);
 		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().map(mapper));
 		return mapOutput;
 	}	
 
 	@Override
-	public <R> LazyArrayList<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
+	public <R> LazyLinkedList<R> mapIndexed(BiFunction<T, Integer, R> mapper) {
 		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().mapIndexed(mapper));
-		return new LazyArrayList<>(this);
+		return new LazyLinkedList<>(this);
 	}
 
 	@Override
 	public T maxBy(Comparator<T> comparator) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.maxBy(comparator);
 	}
 
 	@Override
 	public T minBy(Comparator<T> comparator) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.minBy(comparator);
 	}
 
 	@Override
-	public LazyArrayList<T> orderBy(Comparator<T> comparator) {
+	public LazyLinkedList<T> orderBy(Comparator<T> comparator) {
 		lazyActionManager.addAction(() -> getOperationList().orderBy(comparator));
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<T> orderDecreasingBy(Comparator<T> comparator) {
+	public LazyLinkedList<T> orderDecreasingBy(Comparator<T> comparator) {
 		lazyActionManager.addAction(() -> getOperationList().orderDecreasingBy(comparator));
 		return this;
 	}
@@ -236,50 +232,49 @@ public class LazyArrayList<T> extends java.util.ArrayList<T> implements LazyList
 
 	@Override
 	public T reduce(BinaryOperator<T> accumulator) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.reduce(accumulator);
 	}
 
 	@Override
 	public T reduceReverse(BinaryOperator<T> accumulator) {
-		ArrayList<T> strictList = executeActions();
+		LinkedList<T> strictList = executeActions();
 		return strictList.reduceReverse(accumulator);
 	}
 
 	@Override
-	public LazyArrayList<T> reverse() {
+	public LazyLinkedList<T> reverse() {
 		lazyActionManager.addAction(() -> getOperationList().reverse());
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<T> take(int n) {
+	public LazyLinkedList<T> take(int n) {
 		lazyActionManager.addAction(() -> getOperationList().take(n));
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<T> takeLast(int n) {
+	public LazyLinkedList<T> takeLast(int n) {
 		lazyActionManager.addAction(() -> getOperationList().takeLast(n));
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<T> union(java.util.Collection<T> collection) {
+	public LazyLinkedList<T> union(java.util.Collection<T> collection) {
 		lazyActionManager.addAction(() -> getOperationList().union(collection));
 		return this;
 	}
 
 	@Override
-	public LazyArrayList<Pair<T, Integer>> zipIndexed() {
+	public LazyLinkedList<Pair<T, Integer>> zipIndexed() {
 		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().zipIndexed());
-		return new LazyArrayList<>(this);
+		return new LazyLinkedList<>(this);
 	}
 
 	@Override
-	public <X> LazyArrayList<Pair<T, X>> zipWith(java.util.Collection<X> other) {
+	public <X> LazyLinkedList<Pair<T, X>> zipWith(java.util.Collection<X> other) {
 		lazyActionManager.addTrasformingTypeAction(() -> getOperationList().zipWith(other));
-		return new LazyArrayList<>(this);
+		return new LazyLinkedList<>(this);
 	}
-
 }

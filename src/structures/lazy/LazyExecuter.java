@@ -8,20 +8,21 @@ import operations.Operation;
 import operations.OperationImpl;
 import structures.ArrayList;
 import structures.Collection;
+import structures.List;
 
 public class LazyExecuter<T> {
 	
 
-	public <R> ArrayList<R> executeTasks(LazyActionManager manager){
+	public <R> List<R> executeTasks(LazyActionManager manager){
 		if(manager.numActions() == 0){
 			return manager.getInput();
 		}
-		ArrayList<Runnable> actions = manager.getActions();
+		List<Runnable> actions = manager.getActions();
 		for(Runnable task : actions){
 			task.run();
 		}
 		manager.getInput().clear();
-		return (ArrayList<R>) (manager.isInvokedTrasformingTypeAction()? manager.getOutputTrasformingType() : manager.getOutput());
+		return (List<R>) (manager.isInvokedTrasformingTypeAction()? manager.getOutputTrasformingType() : manager.getOutput());
 	}
 
 	
